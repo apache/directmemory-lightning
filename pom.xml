@@ -20,6 +20,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.apache</groupId>
+    <artifactId>apache</artifactId>
+    <version>11</version>
+  </parent>
+
   <groupId>org.apache.directmemory.lightning</groupId>
   <artifactId>lightning</artifactId>
   <version>0.0.1-SNAPSHOT</version>
@@ -36,20 +43,6 @@
     <module>lightning-maven-eclipse-helper-feature</module>
     <module>lightning-integration</module>
   </modules>
-
-  <distributionManagement>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Nexus Release Repository</name>
-      <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/
-			</url>
-    </repository>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
 
   <developers>
     <developer>
@@ -68,16 +61,7 @@
     </license>
   </licenses>
 
-  <issueManagement>
-    <system>GitHub Issue Tracker</system>
-    <url>https://github.com/noctarius/Lightning/issues</url>
-  </issueManagement>
 
-  <scm>
-    <connection>scm:git:http://github.com/Lightning/Lightning</connection>
-    <developerConnection>scm:git:https://github.com/Lightning/Lightning</developerConnection>
-    <url>http://github.com/Lightning/Lightning</url>
-  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -254,19 +238,6 @@
         <configuration>
           <encoding>UTF-8</encoding>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.2</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
 
       <plugin>
