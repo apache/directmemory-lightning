@@ -1,0 +1,91 @@
+
+package org.apache.directmemory.lightning.maven.integration;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.directmemory.lightning.Marshaller;
+import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.instantiator.ObjectInstantiatorFactory;
+import org.apache.directmemory.lightning.internal.ClassDescriptorAwareSerializer;
+import org.apache.directmemory.lightning.internal.generator.AbstractGeneratedMarshaller;
+import org.apache.directmemory.lightning.metadata.ValuePropertyAccessor;
+import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
+
+public final class FooLightningGeneratedMarshaller extends AbstractGeneratedMarshaller {
+
+	private final PropertyDescriptor DESCRIPTOR_BAR_LIGHTNING;
+	private final Marshaller MARSHALLER_BAR_LIGHTNING;
+	private final ValuePropertyAccessor ACCESSOR_BAR_LIGHTNING;
+	private final PropertyDescriptor DESCRIPTOR_FOO_LIGHTNING;
+	private final Marshaller MARSHALLER_FOO_LIGHTNING;
+	private final ValuePropertyAccessor ACCESSOR_FOO_LIGHTNING;
+
+	public FooLightningGeneratedMarshaller (Class<?> marshalledType, Map<Class<?>, Marshaller> marshallers,
+		ClassDescriptorAwareSerializer serializer, ObjectInstantiatorFactory objectInstantiatorFactory,
+		List<PropertyDescriptor> propertyDescriptors) {
+		
+		super(marshalledType, marshallers, serializer, objectInstantiatorFactory);
+		DESCRIPTOR_BAR_LIGHTNING = propertyDescriptors.get(0);
+		
+		PropertyDescriptor bar = findPropertyDescriptor("bar", propertyDescriptors);
+		Marshaller barMarshaller = bar.getMarshaller();
+		if (barMarshaller == null) {
+			barMarshaller = findMarshaller(bar);
+		}
+		MARSHALLER_BAR_LIGHTNING = barMarshaller;
+
+		ACCESSOR_BAR_LIGHTNING = (ValuePropertyAccessor) getPropertyAccessor("bar");
+		DESCRIPTOR_FOO_LIGHTNING = propertyDescriptors.get(1);
+		
+		PropertyDescriptor foo = findPropertyDescriptor("foo", propertyDescriptors);
+		Marshaller fooMarshaller = foo.getMarshaller();
+		if (fooMarshaller == null) {
+			fooMarshaller = findMarshaller(foo);
+		}
+		MARSHALLER_FOO_LIGHTNING = fooMarshaller;
+
+		ACCESSOR_FOO_LIGHTNING = (ValuePropertyAccessor) getPropertyAccessor("foo");
+	}
+	
+	public void marshall(Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput, SerializationContext serializationContext) throws IOException {
+		if (isAlreadyMarshalled(value, propertyDescriptor.getType(), dataOutput, serializationContext)) {
+			return;
+		}
+
+		ValuePropertyAccessor barPropertyAccessor = this.ACCESSOR_BAR_LIGHTNING;
+		PropertyDescriptor barPropertyDescriptor = this.DESCRIPTOR_BAR_LIGHTNING;
+		this.MARSHALLER_BAR_LIGHTNING.marshall(Integer.valueOf(barPropertyAccessor.readInt(value)), barPropertyDescriptor, dataOutput, serializationContext);
+
+		ValuePropertyAccessor fooPropertyAccessor = this.ACCESSOR_FOO_LIGHTNING;
+		PropertyDescriptor fooPropertyDescriptor = this.DESCRIPTOR_FOO_LIGHTNING;
+		this.MARSHALLER_FOO_LIGHTNING.marshall(fooPropertyAccessor.readObject(value), fooPropertyDescriptor, dataOutput, serializationContext);
+
+	}
+	
+	public <V> V unmarshall(V instance, PropertyDescriptor propertyDescriptor, DataInput dataInput, SerializationContext serializationContext) throws IOException {
+		ValuePropertyAccessor barPropertyAccessor = this.ACCESSOR_BAR_LIGHTNING;
+		PropertyDescriptor barPropertyDescriptor = this.DESCRIPTOR_BAR_LIGHTNING;
+		Object barValue = this.MARSHALLER_BAR_LIGHTNING.unmarshall(barPropertyDescriptor, dataInput, serializationContext);
+		barPropertyAccessor.writeInt(instance, ((Integer) barValue).intValue());
+
+		ValuePropertyAccessor fooPropertyAccessor = this.ACCESSOR_FOO_LIGHTNING;
+		PropertyDescriptor fooPropertyDescriptor = this.DESCRIPTOR_FOO_LIGHTNING;
+		Object fooValue = this.MARSHALLER_FOO_LIGHTNING.unmarshall(fooPropertyDescriptor, dataInput, serializationContext);
+		fooPropertyAccessor.writeObject(instance, fooValue);
+
+		return instance;
+	}
+	
+	private PropertyDescriptor findPropertyDescriptor(String propertyName, List<PropertyDescriptor> propertyDescriptors) {
+		for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+			if (propertyDescriptor.getPropertyName().equals(propertyName)) {
+				return propertyDescriptor;
+			}
+		}
+		return null;
+	}
+}

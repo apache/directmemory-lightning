@@ -1,0 +1,96 @@
+#**
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+*#
+package ${packageName};
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.directmemory.lightning.Marshaller;
+import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.instantiator.ObjectInstantiatorFactory;
+import org.apache.directmemory.lightning.internal.ClassDescriptorAwareSerializer;
+import org.apache.directmemory.lightning.internal.generator.AbstractGeneratedMarshaller;
+import org.apache.directmemory.lightning.metadata.ValuePropertyAccessor;
+import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
+
+public final class ${className} extends AbstractGeneratedMarshaller {
+
+#foreach( $property in ${properties} )
+	private final PropertyDescriptor ${support.toFinalFieldName("descriptor", $property)};
+	private final Marshaller ${support.toFinalFieldName("marshaller", $property)};
+	private final ValuePropertyAccessor ${support.toFinalFieldName("accessor", $property)};
+#end
+
+	public ${className} (Class<?> marshalledType, Map<Class<?>, Marshaller> marshallers,
+		ClassDescriptorAwareSerializer serializer, ObjectInstantiatorFactory objectInstantiatorFactory,
+		List<PropertyDescriptor> propertyDescriptors) {
+		
+		super(marshalledType, marshallers, serializer, objectInstantiatorFactory);
+#set( $index = 0)
+#foreach( $property in ${properties} )
+		${support.toFinalFieldName("descriptor", $property)} = propertyDescriptors.get(${index});
+		
+		PropertyDescriptor ${property.propertyName} = findPropertyDescriptor("${property.propertyName}", propertyDescriptors);
+		Marshaller ${property.propertyName}Marshaller = ${property.propertyName}.getMarshaller();
+		if (${property.propertyName}Marshaller == null) {
+			${property.propertyName}Marshaller = findMarshaller(${property.propertyName});
+		}
+		${support.toFinalFieldName("marshaller", $property)} = ${property.propertyName}Marshaller;
+
+		${support.toFinalFieldName("accessor", $property)} = (ValuePropertyAccessor) getPropertyAccessor("${property.propertyName}");
+#set( $index = $index + 1)
+#end	
+	}
+	
+	public void marshall(Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput, SerializationContext serializationContext) throws IOException {
+		if (isAlreadyMarshalled(value, propertyDescriptor.getType(), dataOutput, serializationContext)) {
+			return;
+		}
+
+#foreach( $property in ${properties} )
+		ValuePropertyAccessor ${property.propertyName}PropertyAccessor = this.${support.toFinalFieldName("accessor", $property)};
+		PropertyDescriptor ${property.propertyName}PropertyDescriptor = this.${support.toFinalFieldName("descriptor", $property)};
+		this.${support.toFinalFieldName("marshaller", $property)}.marshall(${support.generateReader($property)}, ${property.propertyName}PropertyDescriptor, dataOutput, serializationContext);
+
+#end
+	}
+	
+	public <V> V unmarshall(V instance, PropertyDescriptor propertyDescriptor, DataInput dataInput, SerializationContext serializationContext) throws IOException {
+#foreach( $property in ${properties} )
+		ValuePropertyAccessor ${property.propertyName}PropertyAccessor = this.${support.toFinalFieldName("accessor", $property)};
+		PropertyDescriptor ${property.propertyName}PropertyDescriptor = this.${support.toFinalFieldName("descriptor", $property)};
+		Object ${property.propertyName}Value = this.${support.toFinalFieldName("marshaller", $property)}.unmarshall(${property.propertyName}PropertyDescriptor, dataInput, serializationContext);
+		${support.generateWriter($property, "instance")}
+
+#end
+		return instance;
+	}
+	
+	private PropertyDescriptor findPropertyDescriptor(String propertyName, List<PropertyDescriptor> propertyDescriptors) {
+		for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+			if (propertyDescriptor.getPropertyName().equals(propertyName)) {
+				return propertyDescriptor;
+			}
+		}
+		return null;
+	}
+}
