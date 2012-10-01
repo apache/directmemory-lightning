@@ -61,12 +61,61 @@
     </license>
   </licenses>
 
+  <mailingLists>
+    <mailingList>
+      <name>Users</name>
+      <post>user@directmemory.apache.org</post>
+      <subscribe>user-subscribe@directmemory.apache.org</subscribe>
+      <unsubscribe>user-unsubscribe@directmemory.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/directmemory-user/</archive>
+      <otherArchives>
+        <otherArchive>http://directmemory-user.markmail.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+    <mailingList>
+      <name>Development</name>
+      <post>dev@directmemory.apache.org</post>
+      <subscribe>dev-subscribe@directmemory.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@directmemory.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/directmemory-dev/</archive>
+      <otherArchives>
+        <otherArchive>http://directmemory-dev.markmail.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+    <mailingList>
+      <name>Commits</name>
+      <post>commits@directmemory.apache.org</post>
+      <subscribe>commits-subscribe@directmemory.apache.org</subscribe>
+      <unsubscribe>commits-unsubscribe@directmemory.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/directmemory-commits/</archive>
+      <otherArchives>
+        <otherArchive>http://directmemory-commits.markmail.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+  </mailingLists>
+
+  <scm>
+    <connection>scm:svn:https://svn.apache.org/repos/asf/lightning/trunk/</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/lightning/trunk/</developerConnection>
+    <url>https://svn.apache.org/viewvc/lightning/trunk/</url>
+  </scm>
+  <issueManagement>
+    <system>jira</system>
+    <url>https://issues.apache.org/jira/browse/DIRECTMEMORY</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Jenkins</system>
+    <url>https://builds.apache.org/view/A-F/view/Directmemory/</url>
+  </ciManagement>
+
 
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <maven.version>[3.0.3,)</maven.version>
+
+    <rat-plugin.version>0.8</rat-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -241,36 +290,32 @@
       </plugin>
 
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>rat-maven-plugin</artifactId>
-        <version>1.0-alpha-3</version>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <version>${rat-plugin.version}</version>
         <executions>
           <execution>
-            <phase>verify</phase>
+            <id>rat-verify</id>
+            <phase>test</phase>
             <goals>
               <goal>check</goal>
             </goals>
             <configuration>
-              <addDefaultLicenseMatchers>false</addDefaultLicenseMatchers>
-              <licenseMatchers>
-                <classNames>
-                  <className>rat.analysis.license.ApacheSoftwareLicense20</className>
-                </classNames>
-              </licenseMatchers>
-              <includes>
-                <include>pom.xml</include>
-                <include>src/**</include>
-              </includes>
               <excludes>
-                <exclude>src/**/bundle/**</exclude>
-                <exclude>src/**/jrockit/**</exclude>
-                <exclude>src/**/generated.java.out</exclude>
+                <exclude>.gitignore</exclude>
+                <exclude>DEPENDENCIES</exclude>
+                <exclude>.idea/**</exclude>
+                <exclude>**/*.iml</exclude>
+                <exclude>.repository/**</exclude>
+                <exclude>src/test/resources/generated.java.out</exclude>
                 <exclude>META-INF/MANIFEST.MF</exclude>
               </excludes>
             </configuration>
           </execution>
         </executions>
       </plugin>
+
+
     </plugins>
     <resources>
       <resource>
