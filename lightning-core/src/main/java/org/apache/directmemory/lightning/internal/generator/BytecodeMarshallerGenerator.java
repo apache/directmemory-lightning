@@ -1,3 +1,5 @@
+package org.apache.directmemory.lightning.internal.generator;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -16,17 +18,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.directmemory.lightning.internal.generator;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
+import org.apache.commons.io.IOUtils;
 import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.MarshallerStrategy;
 import org.apache.directmemory.lightning.SerializationStrategy;
@@ -43,6 +36,15 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 public class BytecodeMarshallerGenerator
     implements Opcodes, GeneratorConstants, MarshallerGenerator
 {
@@ -54,7 +56,8 @@ public class BytecodeMarshallerGenerator
                                           Map<Class<?>, Marshaller> marshallers,
                                           ClassDescriptorAwareSerializer serializer,
                                           SerializationStrategy serializationStrategy,
-                                          ObjectInstantiatorFactory objectInstantiatorFactory, File debugCacheDirectory )
+                                          ObjectInstantiatorFactory objectInstantiatorFactory,
+                                          File debugCacheDirectory )
     {
 
         try
@@ -66,9 +69,9 @@ public class BytecodeMarshallerGenerator
             Collections.sort( propertyDescriptorsCopy );
 
             // Build className e.g. "SomeTypeMarshaller$$X$$Lightning"
-            String className =
-                new StringBuilder( !type.isArray() ? type.getSimpleName() : type.getComponentType().getSimpleName()
-                    + "Array" ).append( "Marshaller" ).append( GENEREATED_CLASS_ID.getAndIncrement() ).append( "Lightning" ).toString();
+            String className = new StringBuilder(
+                !type.isArray() ? type.getSimpleName() : type.getComponentType().getSimpleName() + "Array" ).append(
+                "Marshaller" ).append( GENEREATED_CLASS_ID.getAndIncrement() ).append( "Lightning" ).toString();
 
             // Build class
             cw.visit( V1_6, ACC_PUBLIC & ACC_SUPER, className, null, SUPER_CLASS_INTERNAL_TYPE, null );
@@ -94,9 +97,15 @@ public class BytecodeMarshallerGenerator
             {
                 File file = new File( debugCacheDirectory, className + ".class" );
                 FileOutputStream out = new FileOutputStream( file );
-                out.write( bytecode );
-                out.flush();
-                out.close();
+                try
+                {
+                    out.write( bytecode );
+                    out.flush();
+                }
+                finally
+                {
+                    IOUtils.closeQuietly( out );
+                }
             }
 
             Class<? extends Marshaller> generatedClass = classloader.loadClass( bytecode );
@@ -110,8 +119,7 @@ public class BytecodeMarshallerGenerator
         }
         catch ( Exception e )
         {
-            throw new SerializerMarshallerGeneratorException(
-                                                              "Marshaller for type " + type + " could not be generated",
+            throw new SerializerMarshallerGeneratorException( "Marshaller for type " + type + " could not be generated",
                                                               e );
         }
     }
@@ -124,31 +132,27 @@ public class BytecodeMarshallerGenerator
             FieldVisitor fv = null;
 
             // Write PropertyDescriptor field
-            fv =
-                cw.visitField( ACC_FINAL & ACC_PRIVATE, toFinalFieldName( "descriptor", propertyDescriptor ),
-                               PROPERTYDESCRIPTOR_CLASS_DESCRIPTOR, null, null );
+            fv = cw.visitField( ACC_FINAL & ACC_PRIVATE, toFinalFieldName( "descriptor", propertyDescriptor ),
+                                PROPERTYDESCRIPTOR_CLASS_DESCRIPTOR, null, null );
             fv.visitEnd();
 
             if ( propertyDescriptor.getType().isArray()
                 && !propertyDescriptor.getType().getComponentType().isPrimitive() )
             {
                 // Write ComponentType PropertyDescriptor field
-                fv =
-                    cw.visitField( ACC_FINAL & ACC_PRIVATE, toFinalFieldName( "component", propertyDescriptor ),
-                                   CHEATINGPROPERTYDESCRIPTOR_CLASS_DESCRIPTOR, null, null );
+                fv = cw.visitField( ACC_FINAL & ACC_PRIVATE, toFinalFieldName( "component", propertyDescriptor ),
+                                    CHEATINGPROPERTYDESCRIPTOR_CLASS_DESCRIPTOR, null, null );
                 fv.visitEnd();
             }
 
             // Write Marshaller field
-            fv =
-                cw.visitField( ACC_FINAL & ACC_PRIVATE, toFinalFieldName( "marshaller", propertyDescriptor ),
-                               MARSHALLER_CLASS_DESCRIPTOR, null, null );
+            fv = cw.visitField( ACC_FINAL & ACC_PRIVATE, toFinalFieldName( "marshaller", propertyDescriptor ),
+                                MARSHALLER_CLASS_DESCRIPTOR, null, null );
             fv.visitEnd();
 
             // Write PropertyAccessor field
-            fv =
-                cw.visitField( ACC_FINAL & ACC_PRIVATE, toFinalFieldName( "accessor", propertyDescriptor ),
-                               PROPERTYACCESSOR_CLASS_DESCRIPTOR, null, null );
+            fv = cw.visitField( ACC_FINAL & ACC_PRIVATE, toFinalFieldName( "accessor", propertyDescriptor ),
+                                PROPERTYACCESSOR_CLASS_DESCRIPTOR, null, null );
             fv.visitEnd();
         }
     }
@@ -174,7 +178,8 @@ public class BytecodeMarshallerGenerator
         mv.visitVarInsn( ALOAD, 4 );
 
         // Call super(Class, Map)
-        mv.visitMethodInsn( INVOKESPECIAL, SUPER_CLASS_INTERNAL_TYPE, "<init>", MARSHALLER_SUPER_CONSTRUCTOR_SIGNATURE );
+        mv.visitMethodInsn( INVOKESPECIAL, SUPER_CLASS_INTERNAL_TYPE, "<init>",
+                            MARSHALLER_SUPER_CONSTRUCTOR_SIGNATURE );
 
         // Fill fields with marshallers
         for ( int i = 0; i < propertyDescriptors.size(); i++ )
@@ -390,7 +395,8 @@ public class BytecodeMarshallerGenerator
         mv.visitVarInsn( ALOAD, 4 );
 
         // Call Marshaller#marshall on properties marshaller
-        mv.visitMethodInsn( INVOKEINTERFACE, MARSHALLER_CLASS_INTERNAL_TYPE, "marshall", MARSHALLER_MARSHALL_SIGNATURE );
+        mv.visitMethodInsn( INVOKEINTERFACE, MARSHALLER_CLASS_INTERNAL_TYPE, "marshall",
+                            MARSHALLER_MARSHALL_SIGNATURE );
     }
 
     private void visitObjectArrayPropertyAccessorRead( MethodVisitor mv, String className,
@@ -475,7 +481,8 @@ public class BytecodeMarshallerGenerator
         mv.visitVarInsn( ALOAD, 4 );
 
         // Call Marshaller#marshall on properties marshaller
-        mv.visitMethodInsn( INVOKEINTERFACE, MARSHALLER_CLASS_INTERNAL_TYPE, "marshall", MARSHALLER_MARSHALL_SIGNATURE );
+        mv.visitMethodInsn( INVOKEINTERFACE, MARSHALLER_CLASS_INTERNAL_TYPE, "marshall",
+                            MARSHALLER_MARSHALL_SIGNATURE );
 
         // Test if loop ends
         mv.visitIincInsn( 7, 1 );
@@ -884,7 +891,8 @@ public class BytecodeMarshallerGenerator
 
     private String toFinalFieldName( String prefix, PropertyDescriptor propertyDescriptor )
     {
-        return new StringBuilder( prefix.toUpperCase() ).append( "_" ).append( propertyDescriptor.getPropertyName().toUpperCase() ).append( "_LIGHTNING" ).toString();
+        return new StringBuilder( prefix.toUpperCase() ).append( "_" ).append(
+            propertyDescriptor.getPropertyName().toUpperCase() ).append( "_LIGHTNING" ).toString();
     }
 
     protected void visitSystemOutPrintln( MethodVisitor mv, int stackPosition )
