@@ -22,9 +22,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>11</version>
+    <groupId>org.apache.directmemory</groupId>
+    <artifactId>directmemory-parent</artifactId>
+    <version>1-SNAPSHOT</version>
   </parent>
 
   <groupId>org.apache.directmemory.lightning</groupId>
@@ -54,65 +54,14 @@
     </developer>
   </developers>
 
-  <licenses>
-    <license>
-      <name>Apache License Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-    </license>
-  </licenses>
-
-  <mailingLists>
-    <mailingList>
-      <name>Users</name>
-      <post>user@directmemory.apache.org</post>
-      <subscribe>user-subscribe@directmemory.apache.org</subscribe>
-      <unsubscribe>user-unsubscribe@directmemory.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/directmemory-user/</archive>
-      <otherArchives>
-        <otherArchive>http://directmemory-user.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-    <mailingList>
-      <name>Development</name>
-      <post>dev@directmemory.apache.org</post>
-      <subscribe>dev-subscribe@directmemory.apache.org</subscribe>
-      <unsubscribe>dev-unsubscribe@directmemory.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/directmemory-dev/</archive>
-      <otherArchives>
-        <otherArchive>http://directmemory-dev.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-    <mailingList>
-      <name>Commits</name>
-      <post>commits@directmemory.apache.org</post>
-      <subscribe>commits-subscribe@directmemory.apache.org</subscribe>
-      <unsubscribe>commits-unsubscribe@directmemory.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/directmemory-commits/</archive>
-      <otherArchives>
-        <otherArchive>http://directmemory-commits.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-  </mailingLists>
-
   <scm>
     <connection>scm:svn:https://svn.apache.org/repos/asf/lightning/trunk/</connection>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/lightning/trunk/</developerConnection>
     <url>https://svn.apache.org/viewvc/lightning/trunk/</url>
   </scm>
-  <issueManagement>
-    <system>jira</system>
-    <url>https://issues.apache.org/jira/browse/DIRECTMEMORY</url>
-  </issueManagement>
-  <ciManagement>
-    <system>Jenkins</system>
-    <url>https://builds.apache.org/view/A-F/view/Directmemory/</url>
-  </ciManagement>
-
 
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
     <maven.version>[3.0.3,)</maven.version>
 
     <rat-plugin.version>0.8</rat-plugin.version>
@@ -265,27 +214,8 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.3.2</version>
         <configuration>
           <tagBase>https://svn.apache.org/repos/asf/directmemory/lightning/tags/</tagBase>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.5.1</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.5</version>
-        <configuration>
-          <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
 
@@ -355,20 +285,4 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.4</version>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>2.4.0</version>
-      </plugin>
-    </plugins>
-  </reporting>
-
 </project>
