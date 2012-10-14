@@ -77,7 +77,6 @@
             <configuration>
               <includes>
                 <include>com.carrotsearch:hppc</include>
-                <include>${project.groupId}:lightning-api</include>
                 <include>asm:asm</include>
                 <include>com.googlecode:reflectasm</include>
               </includes>
