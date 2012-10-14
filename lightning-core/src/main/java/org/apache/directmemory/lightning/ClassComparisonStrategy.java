@@ -19,8 +19,21 @@
 package org.apache.directmemory.lightning;
 
 /**
+ * <p>
  * Defines the comparison strategy of classes between different serializers. The standard strategy of Java is
  * SerialVersionUID but Lightning has some lighter algorithm which only takes properties into account.
+ * </p>
+ * <p>
+ * {@link #LightningChecksum} is a lightweight checksum only taking the defined attributes into account and is pretty
+ * insensitive to other changes in classes but adding / removing of attributes is not supported. This strategy is used
+ * by default.<br>
+ * {@link #SerialVersionUID} is using the standard Java serialVersionUID fields (or if not provided calculates it's
+ * value from the given class). Using this value you can force Lightning to see different versions of a class to be
+ * compatible but only adding attributes in newer class versions is supported.<br>
+ * {@link #SkipComparison} skips any kind of comparison check and can be used when user provided marshallers can handle
+ * different versions of classes. This could be used to implement some kind of schema evolution but is only recommended
+ * for export use.
+ * </p>
  */
 public enum ClassComparisonStrategy
 {
