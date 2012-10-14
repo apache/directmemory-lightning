@@ -18,6 +18,9 @@
  */
 package org.apache.directmemory.lightning;
 
+/**
+ * The SerializationStrategy defines how Lightning will (de-) serialize objects from / into the datastream.
+ */
 public enum SerializationStrategy
 {
 

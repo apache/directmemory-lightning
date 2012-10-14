@@ -20,11 +20,26 @@ package org.apache.directmemory.lightning;
 
 import java.lang.reflect.Type;
 
+/**
+ * The MarshallerContext is used to collect all {@link Marshaller}s by type.
+ */
 public interface MarshallerContext
 {
 
+    /**
+     * Returns a {@link Marshaller} by given type.
+     * 
+     * @param type The type to search the {@link Marshaller} for
+     * @return The {@link Marshaller} implementation
+     */
     Marshaller getMarshaller( Type type );
 
+    /**
+     * Binds a new {@link Marshaller} implementation to the given type
+     * 
+     * @param type The type to bind the {@link Marshaller} to
+     * @param marshaller The {@link Marshaller} implementation to bind to the given type
+     */
     void bindMarshaller( Type type, Marshaller marshaller );
 
 }

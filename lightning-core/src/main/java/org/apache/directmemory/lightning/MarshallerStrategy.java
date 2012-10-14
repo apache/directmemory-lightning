@@ -18,13 +18,36 @@
  */
 package org.apache.directmemory.lightning;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 
+/**
+ * The MarshallerStrategy is used to find a marshaller for a given type in a {@link MarshallerContext}. This class is
+ * used internally for finding generated {@link Marshaller} implementations.
+ */
 public interface MarshallerStrategy
 {
 
+    /**
+     * Returns a {@link Marshaller} implementation found in the given {@link MarshallerContext} for type.
+     * 
+     * @param type The type to search with
+     * @param marshallerContext The {@link MarshallerContext} to search in
+     * @return The {@link Marshaller} implementation
+     */
     Marshaller getMarshaller( Type type, MarshallerContext marshallerContext );
 
+    /**
+     * Returns a {@link Marshaller} implementation found in the given {@link MarshallerContext} for type. If
+     * baseMarshallerOnly is set no {@link Serializable} {@link Marshaller} will be used in hope to find a more suitable
+     * one.
+     * 
+     * @param type The type to search with
+     * @param marshallerContext The {@link MarshallerContext} to search in
+     * @param baseMarshallersOnly If set to false the {@link Serializable} {@link Marshaller} implementation will be
+     *            skipped when searching for a suitable one
+     * @return The {@link Marshaller} implementation
+     */
     Marshaller getMarshaller( Type type, MarshallerContext marshallerContext, boolean baseMarshallersOnly );
 
 }
