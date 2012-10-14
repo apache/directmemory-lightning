@@ -37,7 +37,6 @@ import org.apache.directmemory.lightning.base.AbstractSerializerDefinition;
 import org.apache.directmemory.lightning.configuration.SerializerDefinition;
 import org.apache.directmemory.lightning.logging.LogLevel;
 import org.apache.directmemory.lightning.logging.Logger;
-import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.compiler.util.scan.SimpleSourceInclusionScanner;
 import org.codehaus.plexus.compiler.util.scan.SourceInclusionScanner;
@@ -59,15 +58,6 @@ import org.codehaus.plexus.compiler.util.scan.StaleSourceScanner;
 public class LightningGeneratorMojo
     extends AbstractCompilerMojo
 {
-
-    /**
-     * The current build session instance. This is used for toolchain manager API calls.
-     * 
-     * @parameter default-value="${session}"
-     * @required
-     * @readonly
-     */
-    private MavenSession session;
 
     /**
      * The java generated-source directory.
