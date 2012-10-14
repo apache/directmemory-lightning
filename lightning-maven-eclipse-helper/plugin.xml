@@ -19,7 +19,13 @@ specific language governing permissions and limitations
 under the License.
 -->
 <plugin>
-  <extension
-    point="org.eclipse.m2e.core.lifecycleMappingMetadataSource">
+  <extension point="org.eclipse.m2e.core.projectConfigurators">
+    <configurator
+        class="org.apache.directmemory.lightning.m2e.LightningProjectConfigurator"
+        id="org.apache.directmemory.lightning.lightningConfigurator"
+        name="DM-Lightning Project Configurator">
+    </configurator>
+  </extension>
+  <extension point="org.eclipse.m2e.core.lifecycleMappingMetadataSource">
   </extension>
 </plugin>
