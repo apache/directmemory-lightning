@@ -37,7 +37,6 @@
   <modules>
     <module>lightning-core</module>
     <module>lightning-maven-plugin</module>
-    <module>lightning-api</module>
     <module>lightning-maven-integration-test</module>
     <module>lightning-maven-eclipse-helper</module>
     <module>lightning-maven-eclipse-helper-feature</module>
@@ -64,6 +63,15 @@
   <properties>
     <maven.version>[3.0.3,)</maven.version>
 
+    <hppc.version>0.4.1</hppc.version>
+    <asm.version>4.0</asm.version>
+    <reflectasm.version>1.01</reflectasm.version>
+
+    <junit.version>4.10</junit.version>
+
+    <jgroups.version>3.0.4.Final</jgroups.version>
+    <spring.version>2.5.6</spring.version>
+
     <rat-plugin.version>0.8</rat-plugin.version>
   </properties>
 
@@ -73,12 +81,12 @@
       <dependency>
         <groupId>org.ow2.asm</groupId>
         <artifactId>asm</artifactId>
-        <version>4.0</version>
+        <version>${asm.version}</version>
       </dependency>
       <dependency>
         <groupId>com.googlecode</groupId>
         <artifactId>reflectasm</artifactId>
-        <version>1.01</version>
+        <version>${reflectasm.version}</version>
         <exclusions>
           <exclusion>
             <groupId>asm</groupId>
@@ -86,11 +94,16 @@
           </exclusion>
         </exclusions>
       </dependency>
+      <dependency>
+        <groupId>com.carrotsearch</groupId>
+        <artifactId>hppc</artifactId>
+        <version>${hppc.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.9</version>
+        <version>${junit.version}</version>
         <scope>test</scope>
       </dependency>
       <!-- Core dependencies -->
@@ -99,12 +112,12 @@
       <dependency>
         <groupId>org.jgroups</groupId>
         <artifactId>jgroups</artifactId>
-        <version>3.0.4.Final</version>
+        <version>${jgroups.version}</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-beans</artifactId>
-        <version>2.5.6</version>
+        <version>${spring.version}</version>
       </dependency>
       <!-- Integration dependencies -->
 
@@ -114,7 +127,6 @@
         <artifactId>velocity</artifactId>
         <version>1.7</version>
       </dependency>
-
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-plugin-api</artifactId>
@@ -198,20 +210,16 @@
           </exclusion>
         </exclusions>
       </dependency>
+      <!-- Maven plugin dependencies -->
 
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.4</version>
-      </dependency>
-
+      <!-- Maven plugin test dependencies -->
       <dependency>
         <groupId>org.apache.maven.plugin-testing</groupId>
         <artifactId>maven-plugin-testing-harness</artifactId>
         <version>2.0-alpha-1</version>
         <scope>test</scope>
       </dependency>
-      <!-- Maven plugin dependencies -->
+      <!-- Maven plugin test dependencies -->
     </dependencies>
   </dependencyManagement>
 

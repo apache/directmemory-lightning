@@ -24,7 +24,7 @@ import java.util.Set;
 
 import org.apache.directmemory.lightning.internal.InternalClassDefinition;
 import org.apache.directmemory.lightning.internal.InternalClassDefinitionContainer;
-import org.apache.directmemory.lightning.logging.LoggerAdapter;
+import org.apache.directmemory.lightning.logging.NoOpLogger;
 import org.apache.directmemory.lightning.metadata.ClassDefinition;
 import org.apache.directmemory.lightning.metadata.ClassDefinitionContainer;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
@@ -46,7 +46,7 @@ public class ClassDefinitionContainerTestCase
         {
             PropertyDescriptor label = null;
             classDefinitions.add( new InternalClassDefinition( clazz, Collections.<PropertyDescriptor> emptyList(),
-                                                               new LoggerAdapter() ) );
+                                                               new NoOpLogger() ) );
         }
 
         ClassDefinitionContainer classDefinitionContainer = new InternalClassDefinitionContainer( classDefinitions );

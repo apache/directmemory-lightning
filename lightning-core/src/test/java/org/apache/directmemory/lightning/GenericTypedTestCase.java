@@ -33,7 +33,7 @@ import org.apache.directmemory.lightning.base.AbstractSerializerDefinition;
 import org.apache.directmemory.lightning.io.SerializerInputStream;
 import org.apache.directmemory.lightning.io.SerializerOutputStream;
 import org.apache.directmemory.lightning.logging.LogLevel;
-import org.apache.directmemory.lightning.logging.LoggerAdapter;
+import org.apache.directmemory.lightning.logging.NoOpLogger;
 import org.apache.directmemory.lightning.metadata.Attribute;
 import org.apache.directmemory.lightning.metadata.ClassDefinitionContainer;
 import org.junit.Test;
@@ -319,7 +319,7 @@ public class GenericTypedTestCase
     }
 
     public static class DebugLogger
-        extends LoggerAdapter
+        extends NoOpLogger
     {
 
         @Override

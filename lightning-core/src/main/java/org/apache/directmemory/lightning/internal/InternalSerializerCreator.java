@@ -46,7 +46,7 @@ import org.apache.directmemory.lightning.internal.instantiator.ObjenesisSerializ
 import org.apache.directmemory.lightning.internal.util.ClassUtil;
 import org.apache.directmemory.lightning.internal.util.TypeUtil;
 import org.apache.directmemory.lightning.logging.Logger;
-import org.apache.directmemory.lightning.logging.LoggerAdapter;
+import org.apache.directmemory.lightning.logging.NoOpLogger;
 import org.apache.directmemory.lightning.metadata.Attribute;
 import org.apache.directmemory.lightning.metadata.ClassDefinition;
 import org.apache.directmemory.lightning.metadata.ClassDescriptor;
@@ -75,7 +75,7 @@ public final class InternalSerializerCreator
 
     private File debugCacheDirectory = null;
 
-    private Logger logger = new LoggerAdapter();
+    private Logger logger = new NoOpLogger();
 
     public InternalSerializerCreator()
     {

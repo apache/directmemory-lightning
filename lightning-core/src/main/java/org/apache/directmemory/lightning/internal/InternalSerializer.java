@@ -100,7 +100,7 @@ class InternalSerializer
                     marshallerGenerator.generateMarshaller( classDescriptor.getType(),
                                                             classDescriptor.getPropertyDescriptors(), marshallers,
                                                             this, serializationStrategy, objectInstantiatorFactory,
-                                                            debugCacheDirectory );
+                                                            debugCacheDirectory, logger );
 
                 ( (InternalClassDescriptor) classDescriptor ).setMarshaller( marshaller );
                 marshallers.put( classDescriptor.getType(), marshaller );

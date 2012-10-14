@@ -18,23 +18,23 @@
  */
 package org.apache.directmemory.lightning.logging;
 
-public class LoggerAdapter
+public class NoOpLogger
     implements Logger
 {
 
     private final String name;
 
-    public LoggerAdapter()
+    public NoOpLogger()
     {
         this( "Default" );
     }
 
-    public LoggerAdapter( Class<?> clazz )
+    public NoOpLogger( Class<?> clazz )
     {
         this( clazz.getCanonicalName() );
     }
 
-    public LoggerAdapter( String name )
+    public NoOpLogger( String name )
     {
         this.name = name;
     }

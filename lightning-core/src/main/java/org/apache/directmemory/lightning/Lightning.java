@@ -31,7 +31,7 @@ import org.apache.directmemory.lightning.base.DefaultValueNullableEvaluator;
 import org.apache.directmemory.lightning.configuration.SerializerDefinition;
 import org.apache.directmemory.lightning.internal.InternalSerializerCreator;
 import org.apache.directmemory.lightning.logging.Logger;
-import org.apache.directmemory.lightning.logging.LoggerAdapter;
+import org.apache.directmemory.lightning.logging.NoOpLogger;
 import org.apache.directmemory.lightning.metadata.ValueNullableEvaluator;
 
 public final class Lightning
@@ -71,7 +71,7 @@ public final class Lightning
 
         private File debugCacheDirectory = null;
 
-        private Logger logger = new LoggerAdapter();
+        private Logger logger = new NoOpLogger();
 
         private Builder()
         {

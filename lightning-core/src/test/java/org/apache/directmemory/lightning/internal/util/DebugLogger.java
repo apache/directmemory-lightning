@@ -21,10 +21,10 @@ package org.apache.directmemory.lightning.internal.util;
 import java.io.PrintStream;
 
 import org.apache.directmemory.lightning.logging.LogLevel;
-import org.apache.directmemory.lightning.logging.LoggerAdapter;
+import org.apache.directmemory.lightning.logging.NoOpLogger;
 
 public class DebugLogger
-    extends LoggerAdapter
+    extends NoOpLogger
 {
 
     @Override
