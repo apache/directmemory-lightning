@@ -253,6 +253,8 @@
                 <exclude>.repository/**</exclude>
                 <exclude>src/test/resources/generated.java.out</exclude>
                 <exclude>META-INF/MANIFEST.MF</exclude>
+                <exclude>.git/**</exclude>
+                <exclude>sys$command</exclude>
               </excludes>
             </configuration>
           </execution>

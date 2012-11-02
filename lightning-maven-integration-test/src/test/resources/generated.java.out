@@ -1,12 +1,12 @@
 
 package org.apache.directmemory.lightning.maven.integration;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.SerializationContext;
 import org.apache.directmemory.lightning.instantiator.ObjectInstantiatorFactory;
@@ -51,30 +51,30 @@ public final class FooLightningGeneratedMarshaller extends AbstractGeneratedMars
 		ACCESSOR_FOO_LIGHTNING = (ValuePropertyAccessor) getPropertyAccessor("foo");
 	}
 	
-	public void marshall(Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput, SerializationContext serializationContext) throws IOException {
-		if (isAlreadyMarshalled(value, propertyDescriptor.getType(), dataOutput, serializationContext)) {
+	public void marshall(Object value, PropertyDescriptor propertyDescriptor, Target target, SerializationContext serializationContext) throws IOException {
+		if (isAlreadyMarshalled(value, propertyDescriptor.getType(), target, serializationContext)) {
 			return;
 		}
 
 		ValuePropertyAccessor barPropertyAccessor = this.ACCESSOR_BAR_LIGHTNING;
 		PropertyDescriptor barPropertyDescriptor = this.DESCRIPTOR_BAR_LIGHTNING;
-		this.MARSHALLER_BAR_LIGHTNING.marshall(Integer.valueOf(barPropertyAccessor.readInt(value)), barPropertyDescriptor, dataOutput, serializationContext);
+		this.MARSHALLER_BAR_LIGHTNING.marshall(Integer.valueOf(barPropertyAccessor.readInt(value)), barPropertyDescriptor, target, serializationContext);
 
 		ValuePropertyAccessor fooPropertyAccessor = this.ACCESSOR_FOO_LIGHTNING;
 		PropertyDescriptor fooPropertyDescriptor = this.DESCRIPTOR_FOO_LIGHTNING;
-		this.MARSHALLER_FOO_LIGHTNING.marshall(fooPropertyAccessor.readObject(value), fooPropertyDescriptor, dataOutput, serializationContext);
+		this.MARSHALLER_FOO_LIGHTNING.marshall(fooPropertyAccessor.readObject(value), fooPropertyDescriptor, target, serializationContext);
 
 	}
 	
-	public <V> V unmarshall(V instance, PropertyDescriptor propertyDescriptor, DataInput dataInput, SerializationContext serializationContext) throws IOException {
+	public <V> V unmarshall(V instance, PropertyDescriptor propertyDescriptor, Source source, SerializationContext serializationContext) throws IOException {
 		ValuePropertyAccessor barPropertyAccessor = this.ACCESSOR_BAR_LIGHTNING;
 		PropertyDescriptor barPropertyDescriptor = this.DESCRIPTOR_BAR_LIGHTNING;
-		Object barValue = this.MARSHALLER_BAR_LIGHTNING.unmarshall(barPropertyDescriptor, dataInput, serializationContext);
+		Object barValue = this.MARSHALLER_BAR_LIGHTNING.unmarshall(barPropertyDescriptor, source, serializationContext);
 		barPropertyAccessor.writeInt(instance, ((Integer) barValue).intValue());
 
 		ValuePropertyAccessor fooPropertyAccessor = this.ACCESSOR_FOO_LIGHTNING;
 		PropertyDescriptor fooPropertyDescriptor = this.DESCRIPTOR_FOO_LIGHTNING;
-		Object fooValue = this.MARSHALLER_FOO_LIGHTNING.unmarshall(fooPropertyDescriptor, dataInput, serializationContext);
+		Object fooValue = this.MARSHALLER_FOO_LIGHTNING.unmarshall(fooPropertyDescriptor, source, serializationContext);
 		fooPropertyAccessor.writeObject(instance, fooValue);
 
 		return instance;

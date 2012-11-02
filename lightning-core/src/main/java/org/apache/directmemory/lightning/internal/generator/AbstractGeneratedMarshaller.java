@@ -18,7 +18,6 @@
  */
 package org.apache.directmemory.lightning.internal.generator;
 
-import java.io.DataOutput;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -110,7 +109,7 @@ public abstract class AbstractGeneratedMarshaller
                                          SerializationContext serializationContext )
         throws IOException;
 
-    protected boolean isAlreadyMarshalled( Object value, Class<?> type, DataOutput dataOutput,
+    protected boolean isAlreadyMarshalled( Object value, Class<?> type, Target target,
                                            SerializationContext serializationContext )
         throws IOException
     {
@@ -128,11 +127,11 @@ public abstract class AbstractGeneratedMarshaller
         if ( referenceId == -1 )
         {
             referenceId = cacheObjectForMarshall( value, serializationContext );
-            dataOutput.writeLong( referenceId );
+            target.writeLong( referenceId );
             return false;
         }
 
-        dataOutput.writeLong( referenceId );
+        target.writeLong( referenceId );
         return true;
     }
 
