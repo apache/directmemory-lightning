@@ -20,8 +20,6 @@ package org.apache.directmemory.lightning;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -29,16 +27,13 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.directmemory.lightning.Lightning;
-import org.apache.directmemory.lightning.MarshallerContext;
-import org.apache.directmemory.lightning.MarshallerStrategy;
-import org.apache.directmemory.lightning.SerializationContext;
-import org.apache.directmemory.lightning.Serializer;
 import org.apache.directmemory.lightning.base.AbstractObjectMarshaller;
 import org.apache.directmemory.lightning.base.AbstractSerializerDefinition;
 import org.apache.directmemory.lightning.configuration.TypeIntrospector;
 import org.apache.directmemory.lightning.generator.PropertyDescriptorFactory;
 import org.apache.directmemory.lightning.internal.util.DebugLogger;
+import org.apache.directmemory.lightning.io.InputStreamSource;
+import org.apache.directmemory.lightning.io.OutputStreamTarget;
 import org.apache.directmemory.lightning.io.SerializerInputStream;
 import org.apache.directmemory.lightning.io.SerializerOutputStream;
 import org.apache.directmemory.lightning.metadata.ClassDefinitionContainer;
@@ -48,6 +43,7 @@ public class WhatShouldItLookLike
 {
 
     public static void main( String[] args )
+        throws IOException, ClassNotFoundException
     {
         Serializer serializer2 =
             Lightning.newBuilder().logger( new DebugLogger() ).serializerDefinitions( new ExampleSerializerDefinition() ).build();
@@ -72,7 +68,8 @@ public class WhatShouldItLookLike
         foo.someOther = 123;
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
         out.writeObject( foo );
         System.out.println( foo );
 
@@ -80,7 +77,8 @@ public class WhatShouldItLookLike
         System.out.println( Arrays.toString( data ) );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( data );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
         Object value = in.readObject();
         System.out.println( value );
     }
@@ -254,14 +252,14 @@ public class WhatShouldItLookLike
         }
 
         @Override
-        public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+        public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                               SerializationContext serializationContext )
             throws IOException
         {
         }
 
         @Override
-        public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, DataInput dataInput,
+        public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, Source source,
                                  SerializationContext serializationContext )
             throws IOException
         {
@@ -281,14 +279,14 @@ public class WhatShouldItLookLike
         }
 
         @Override
-        public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+        public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                               SerializationContext serializationContext )
             throws IOException
         {
         }
 
         @Override
-        public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, DataInput dataInput,
+        public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, Source source,
                                  SerializationContext serializationContext )
             throws IOException
         {

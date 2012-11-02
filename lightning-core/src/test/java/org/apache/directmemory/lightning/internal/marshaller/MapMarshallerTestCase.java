@@ -34,8 +34,9 @@ import org.apache.directmemory.lightning.Lightning;
 import org.apache.directmemory.lightning.Serializer;
 import org.apache.directmemory.lightning.base.AbstractSerializerDefinition;
 import org.apache.directmemory.lightning.internal.util.DebugLogger;
+import org.apache.directmemory.lightning.io.InputStreamSource;
+import org.apache.directmemory.lightning.io.OutputStreamTarget;
 import org.apache.directmemory.lightning.metadata.Attribute;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class MapMarshallerTestCase
@@ -68,10 +69,12 @@ public class MapMarshallerTestCase
         value.setMap( map );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        serializer.serialize( value, baos );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        serializer.serialize( value, target );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        Object result = serializer.deserialize( bais );
+        InputStreamSource source = new InputStreamSource( bais );
+        Object result = serializer.deserialize( source );
 
         assertNotNull( result );
         assertEquals( value, result );
@@ -102,10 +105,12 @@ public class MapMarshallerTestCase
         value.setMap( map );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        serializer.serialize( value, baos );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        serializer.serialize( value, target );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        Object result = serializer.deserialize( bais );
+        InputStreamSource source = new InputStreamSource( bais );
+        Object result = serializer.deserialize( source );
 
         assertNotNull( result );
         assertEquals( value, result );
@@ -148,10 +153,12 @@ public class MapMarshallerTestCase
         value.setSet( set );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        serializer.serialize( value, baos );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        serializer.serialize( value, target );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        Object result = serializer.deserialize( bais );
+        InputStreamSource source = new InputStreamSource( bais );
+        Object result = serializer.deserialize( source );
 
         assertNotNull( result );
         assertEquals( value, result );

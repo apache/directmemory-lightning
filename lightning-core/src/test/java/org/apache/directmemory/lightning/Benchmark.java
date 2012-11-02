@@ -23,8 +23,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -33,11 +31,10 @@ import java.io.Serializable;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.directmemory.lightning.Lightning;
-import org.apache.directmemory.lightning.SerializationContext;
-import org.apache.directmemory.lightning.Serializer;
 import org.apache.directmemory.lightning.base.AbstractObjectMarshaller;
 import org.apache.directmemory.lightning.base.AbstractSerializerDefinition;
+import org.apache.directmemory.lightning.io.InputStreamSource;
+import org.apache.directmemory.lightning.io.OutputStreamTarget;
 import org.apache.directmemory.lightning.io.SerializerInputStream;
 import org.apache.directmemory.lightning.io.SerializerOutputStream;
 import org.apache.directmemory.lightning.metadata.Attribute;
@@ -67,7 +64,8 @@ public class Benchmark
         for ( int i = 0; i < WARMUP_ROUNDS; i++ )
         {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+            OutputStreamTarget target = new OutputStreamTarget( baos );
+            SerializerOutputStream out = new SerializerOutputStream( serializer, target );
             Foo foo = buildRandomFoo();
             out.writeObject( foo );
 
@@ -92,7 +90,8 @@ public class Benchmark
 
             long startTime = System.nanoTime();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+            OutputStreamTarget target = new OutputStreamTarget( baos );
+            SerializerOutputStream out = new SerializerOutputStream( serializer, target );
             out.writeObject( foo );
 
             time += System.nanoTime() - startTime;
@@ -126,7 +125,8 @@ public class Benchmark
         for ( int i = 0; i < WARMUP_ROUNDS; i++ )
         {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+            OutputStreamTarget target = new OutputStreamTarget( baos );
+            SerializerOutputStream out = new SerializerOutputStream( serializer, target );
             Foo foo = buildRandomFoo();
             out.writeObject( foo );
 
@@ -136,7 +136,8 @@ public class Benchmark
             size = baos.toByteArray().length;
 
             ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-            SerializerInputStream in = new SerializerInputStream( bais, serializer );
+            InputStreamSource source = new InputStreamSource( bais );
+            SerializerInputStream in = new SerializerInputStream( serializer, source );
             Object value = in.readObject();
             assertNotNull( value );
             assertEquals( foo, value );
@@ -156,12 +157,14 @@ public class Benchmark
             Foo foo = buildRandomFoo();
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+            OutputStreamTarget target = new OutputStreamTarget( baos );
+            SerializerOutputStream out = new SerializerOutputStream( serializer, target );
             out.writeObject( foo );
 
             long startTime = System.nanoTime();
             ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-            SerializerInputStream in = new SerializerInputStream( bais, serializer );
+            InputStreamSource source = new InputStreamSource( bais );
+            SerializerInputStream in = new SerializerInputStream( serializer, source );
             Object value = in.readObject();
             time += System.nanoTime() - startTime;
             assertNotNull( value );
@@ -480,14 +483,14 @@ public class Benchmark
         }
 
         @Override
-        public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+        public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                               SerializationContext serializationContext )
             throws IOException
         {
         }
 
         @Override
-        public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, DataInput dataInput,
+        public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, Source source,
                                  SerializationContext serializationContext )
             throws IOException
         {
@@ -507,14 +510,14 @@ public class Benchmark
         }
 
         @Override
-        public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+        public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                               SerializationContext serializationContext )
             throws IOException
         {
         }
 
         @Override
-        public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, DataInput dataInput,
+        public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, Source source,
                                  SerializationContext serializationContext )
             throws IOException
         {

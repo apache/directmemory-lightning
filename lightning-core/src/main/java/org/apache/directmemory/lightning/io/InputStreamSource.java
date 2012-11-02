@@ -65,13 +65,6 @@ public class InputStreamSource
     }
 
     @Override
-    public boolean readBoolean()
-        throws IOException
-    {
-        return readByte() == 1 ? true : false;
-    }
-
-    @Override
     public int readBytes( byte[] bytes )
         throws IOException
     {

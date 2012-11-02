@@ -25,10 +25,10 @@ import static org.junit.Assert.assertNull;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import org.apache.directmemory.lightning.Lightning;
-import org.apache.directmemory.lightning.Serializer;
 import org.apache.directmemory.lightning.base.AbstractSerializerDefinition;
 import org.apache.directmemory.lightning.internal.ClassDescriptorAwareSerializer;
+import org.apache.directmemory.lightning.io.InputStreamSource;
+import org.apache.directmemory.lightning.io.OutputStreamTarget;
 import org.apache.directmemory.lightning.io.SerializerInputStream;
 import org.apache.directmemory.lightning.io.SerializerOutputStream;
 import org.apache.directmemory.lightning.metadata.Attribute;
@@ -60,7 +60,8 @@ public class PropertyFinderTestCase
         assertEquals( 2, classDescriptor.getPropertyDescriptors().size() );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         Standard standard = new Standard();
         standard.setValue1( "Foo" );
@@ -68,7 +69,8 @@ public class PropertyFinderTestCase
         out.writeObject( standard );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         Standard result = (Standard) in.readObject();
 
@@ -96,7 +98,8 @@ public class PropertyFinderTestCase
         assertEquals( 2, classDescriptor.getPropertyDescriptors().size() );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         Standard standard = new Standard();
         standard.setValue1( "Foo" );
@@ -104,7 +107,8 @@ public class PropertyFinderTestCase
         out.writeObject( standard );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         Standard result = (Standard) in.readObject();
 
@@ -132,7 +136,8 @@ public class PropertyFinderTestCase
         assertEquals( 2, classDescriptor.getPropertyDescriptors().size() );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         Standard standard = new Standard();
         standard.setValue1( "Foo" );
@@ -140,7 +145,8 @@ public class PropertyFinderTestCase
         out.writeObject( standard );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         Standard result = (Standard) in.readObject();
 
@@ -168,7 +174,8 @@ public class PropertyFinderTestCase
         assertEquals( 1, classDescriptor.getPropertyDescriptors().size() );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         Standard standard = new Standard();
         standard.setValue1( "Foo" );
@@ -176,7 +183,8 @@ public class PropertyFinderTestCase
         out.writeObject( standard );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         Standard result = (Standard) in.readObject();
 
@@ -205,7 +213,8 @@ public class PropertyFinderTestCase
         assertEquals( 2, classDescriptor.getPropertyDescriptors().size() );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         Inherted inherted = new Inherted();
         inherted.setValue1( "Foo" );
@@ -215,7 +224,8 @@ public class PropertyFinderTestCase
         out.writeObject( inherted );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         Inherted result = (Inherted) in.readObject();
 
@@ -246,7 +256,8 @@ public class PropertyFinderTestCase
         assertEquals( 4, classDescriptor.getPropertyDescriptors().size() );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         Inherted inherted = new Inherted();
         inherted.setValue1( "Foo" );
@@ -256,7 +267,8 @@ public class PropertyFinderTestCase
         out.writeObject( inherted );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         Standard result = (Standard) in.readObject();
 
@@ -284,13 +296,15 @@ public class PropertyFinderTestCase
         assertEquals( 3, classDescriptor.getPropertyDescriptors().size() );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         Composed composed = new Composed( "Foo", 123, "Bar" );
         out.writeObject( composed );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         Composed result = (Composed) in.readObject();
 
@@ -318,7 +332,8 @@ public class PropertyFinderTestCase
         assertEquals( 3, classDescriptor.getPropertyDescriptors().size() );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         ComposedInherted composedInherted = new ComposedInherted();
         composedInherted.setValue1( "Foo" );
@@ -327,7 +342,8 @@ public class PropertyFinderTestCase
         out.writeObject( composedInherted );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         ComposedInherted result = (ComposedInherted) in.readObject();
 

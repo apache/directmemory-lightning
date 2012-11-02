@@ -28,9 +28,6 @@ public interface Source
 
     long readableBytes();
 
-    boolean readBoolean()
-        throws IOException;
-
     int readBytes( byte[] bytes )
         throws IOException;
 

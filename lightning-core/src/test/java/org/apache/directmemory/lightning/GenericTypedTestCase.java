@@ -27,9 +27,9 @@ import java.io.File;
 import java.io.PrintStream;
 import java.util.List;
 
-import org.apache.directmemory.lightning.Lightning;
-import org.apache.directmemory.lightning.Serializer;
 import org.apache.directmemory.lightning.base.AbstractSerializerDefinition;
+import org.apache.directmemory.lightning.io.InputStreamSource;
+import org.apache.directmemory.lightning.io.OutputStreamTarget;
 import org.apache.directmemory.lightning.io.SerializerInputStream;
 import org.apache.directmemory.lightning.io.SerializerOutputStream;
 import org.apache.directmemory.lightning.logging.LogLevel;
@@ -60,7 +60,8 @@ public class GenericTypedTestCase
         // foo.setName("SomeName");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
         out.writeObject( foo );
 
         assertNotNull( baos );
@@ -68,7 +69,8 @@ public class GenericTypedTestCase
         assertNotNull( baos.toByteArray() );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
         Object value = in.readObject();
         assertNotNull( value );
         assertEquals( foo, value );
@@ -97,7 +99,8 @@ public class GenericTypedTestCase
         complex.setBar( Bar.SomeOtherValue );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
         out.writeObject( complex );
 
         assertNotNull( baos );
@@ -105,7 +108,8 @@ public class GenericTypedTestCase
         assertNotNull( baos.toByteArray() );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
         Object value = in.readObject();
         assertNotNull( value );
         assertEquals( complex, value );
@@ -134,7 +138,8 @@ public class GenericTypedTestCase
         complex.setBar( Bar.SomeOtherValue );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
         out.writeObject( complex );
 
         assertNotNull( baos );
@@ -142,7 +147,8 @@ public class GenericTypedTestCase
         assertNotNull( baos.toByteArray() );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
         Object value = in.readObject();
         assertNotNull( value );
         assertEquals( complex, value );

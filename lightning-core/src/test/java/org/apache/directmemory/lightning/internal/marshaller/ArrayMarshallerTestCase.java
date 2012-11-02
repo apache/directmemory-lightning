@@ -30,6 +30,8 @@ import java.util.Random;
 import org.apache.directmemory.lightning.Lightning;
 import org.apache.directmemory.lightning.Serializer;
 import org.apache.directmemory.lightning.base.AbstractSerializerDefinition;
+import org.apache.directmemory.lightning.io.InputStreamSource;
+import org.apache.directmemory.lightning.io.OutputStreamTarget;
 import org.apache.directmemory.lightning.io.SerializerInputStream;
 import org.apache.directmemory.lightning.io.SerializerOutputStream;
 import org.apache.directmemory.lightning.metadata.Attribute;
@@ -68,12 +70,14 @@ public class ArrayMarshallerTestCase
         }, test.array );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         out.writeObject( test );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         BooleanArray result = (BooleanArray) in.readObject();
 
@@ -107,12 +111,14 @@ public class ArrayMarshallerTestCase
         }, test.array );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         out.writeObject( test );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         ByteArray result = (ByteArray) in.readObject();
 
@@ -146,12 +152,14 @@ public class ArrayMarshallerTestCase
         }, test.array );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         out.writeObject( test );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         CharArray result = (CharArray) in.readObject();
 
@@ -185,12 +193,14 @@ public class ArrayMarshallerTestCase
         }, test.array );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         out.writeObject( test );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         ShortArray result = (ShortArray) in.readObject();
 
@@ -224,12 +234,14 @@ public class ArrayMarshallerTestCase
         }, test.array );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         out.writeObject( test );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         IntArray result = (IntArray) in.readObject();
 
@@ -263,12 +275,14 @@ public class ArrayMarshallerTestCase
         }, test.array );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         out.writeObject( test );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         LongArray result = (LongArray) in.readObject();
 
@@ -302,12 +316,14 @@ public class ArrayMarshallerTestCase
         }, test.array );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         out.writeObject( test );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         FloatArray result = (FloatArray) in.readObject();
 
@@ -341,12 +357,14 @@ public class ArrayMarshallerTestCase
         }, test.array );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         out.writeObject( test );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         DoubleArray result = (DoubleArray) in.readObject();
 
@@ -380,12 +398,14 @@ public class ArrayMarshallerTestCase
         }, test.array );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         out.writeObject( test );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         ObjectArray result = (ObjectArray) in.readObject();
 
@@ -430,12 +450,14 @@ public class ArrayMarshallerTestCase
         }, test.array );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SerializerOutputStream out = new SerializerOutputStream( baos, serializer );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
 
         out.writeObject( test );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        SerializerInputStream in = new SerializerInputStream( bais, serializer );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
 
         DeepObjectArray result = (DeepObjectArray) in.readObject();
 

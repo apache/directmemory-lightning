@@ -29,6 +29,8 @@ import org.apache.directmemory.lightning.Lightning;
 import org.apache.directmemory.lightning.Serializer;
 import org.apache.directmemory.lightning.base.AbstractSerializerDefinition;
 import org.apache.directmemory.lightning.internal.util.DebugLogger;
+import org.apache.directmemory.lightning.io.InputStreamSource;
+import org.apache.directmemory.lightning.io.OutputStreamTarget;
 import org.apache.directmemory.lightning.metadata.Attribute;
 import org.junit.Test;
 
@@ -56,10 +58,12 @@ public class IntegerMarshallerTestCase
         value.setValue2( Integer.MAX_VALUE );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        serializer.serialize( value, baos );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        serializer.serialize( value, target );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        Object result = serializer.deserialize( bais );
+        InputStreamSource source = new InputStreamSource( bais );
+        Object result = serializer.deserialize( source );
 
         assertNotNull( result );
         assertEquals( value, result );
@@ -69,10 +73,12 @@ public class IntegerMarshallerTestCase
         value.setValue2( (short) 20 );
 
         baos = new ByteArrayOutputStream();
-        serializer.serialize( value, baos );
+        target = new OutputStreamTarget( baos );
+        serializer.serialize( value, target );
 
         bais = new ByteArrayInputStream( baos.toByteArray() );
-        result = serializer.deserialize( bais );
+        source = new InputStreamSource( bais );
+        result = serializer.deserialize( source );
 
         assertNotNull( result );
         assertEquals( value, result );
@@ -100,10 +106,12 @@ public class IntegerMarshallerTestCase
         value.setValue3( 34 );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        serializer.serialize( value, baos );
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        serializer.serialize( value, target );
 
         ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-        Object result = serializer.deserialize( bais );
+        InputStreamSource source = new InputStreamSource( bais );
+        Object result = serializer.deserialize( source );
 
         assertNotNull( result );
         assertEquals( value, result );
@@ -114,10 +122,12 @@ public class IntegerMarshallerTestCase
         value.setValue3( null );
 
         baos = new ByteArrayOutputStream();
-        serializer.serialize( value, baos );
+        target = new OutputStreamTarget( baos );
+        serializer.serialize( value, target );
 
         bais = new ByteArrayInputStream( baos.toByteArray() );
-        result = serializer.deserialize( bais );
+        source = new InputStreamSource( bais );
+        result = serializer.deserialize( source );
 
         assertNotNull( result );
         assertEquals( value, result );
@@ -128,10 +138,12 @@ public class IntegerMarshallerTestCase
         value.setValue3( Integer.MAX_VALUE );
 
         baos = new ByteArrayOutputStream();
-        serializer.serialize( value, baos );
+        target = new OutputStreamTarget( baos );
+        serializer.serialize( value, target );
 
         bais = new ByteArrayInputStream( baos.toByteArray() );
-        result = serializer.deserialize( bais );
+        source = new InputStreamSource( bais );
+        result = serializer.deserialize( source );
 
         assertNotNull( result );
         assertEquals( value, result );
