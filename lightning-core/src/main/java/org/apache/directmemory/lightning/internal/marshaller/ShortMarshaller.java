@@ -18,11 +18,11 @@
  */
 package org.apache.directmemory.lightning.internal.marshaller;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.base.AbstractMarshaller;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
 
@@ -37,36 +37,36 @@ public class ShortMarshaller
     }
 
     @Override
-    public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+    public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                           SerializationContext serializationContext )
         throws IOException
     {
 
         if ( Short.class == propertyDescriptor.getType() )
         {
-            if ( !writePossibleNull( value, dataOutput ) )
+            if ( !writePossibleNull( value, target ) )
             {
                 return;
             }
         }
 
-        dataOutput.writeShort( (Short) value );
+        target.writeShort( (Short) value );
     }
 
     @Override
     @SuppressWarnings( "unchecked" )
-    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
         if ( Short.class == propertyDescriptor.getType() )
         {
-            if ( isNull( dataInput ) )
+            if ( isNull( source ) )
             {
                 return null;
             }
         }
 
-        return (V) Short.valueOf( dataInput.readShort() );
+        return (V) Short.valueOf( source.readShort() );
     }
 }

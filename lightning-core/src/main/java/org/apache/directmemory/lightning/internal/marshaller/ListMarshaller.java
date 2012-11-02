@@ -18,8 +18,6 @@
  */
 package org.apache.directmemory.lightning.internal.marshaller;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -28,6 +26,8 @@ import java.util.List;
 
 import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.TypeBindableMarshaller;
 import org.apache.directmemory.lightning.base.AbstractMarshaller;
 import org.apache.directmemory.lightning.exceptions.SerializerExecutionException;
@@ -62,15 +62,15 @@ public class ListMarshaller
     }
 
     @Override
-    public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+    public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                           SerializationContext serializationContext )
         throws IOException
     {
 
-        if ( writePossibleNull( value, dataOutput ) )
+        if ( writePossibleNull( value, target ) )
         {
             List<?> list = (List<?>) value;
-            dataOutput.writeInt( list.size() );
+            target.writeInt( list.size() );
 
             Marshaller marshaller = null;
             ClassDefinition classDefinition = null;
@@ -87,7 +87,7 @@ public class ListMarshaller
 
             for ( Object entry : list )
             {
-                if ( writePossibleNull( entry, dataOutput ) )
+                if ( writePossibleNull( entry, target ) )
                 {
                     if ( listType == null )
                     {
@@ -104,8 +104,8 @@ public class ListMarshaller
                         throw new SerializerExecutionException( "No ClassDefinition found for type " + entry.getClass() );
                     }
 
-                    dataOutput.writeLong( classDefinition.getId() );
-                    marshaller.marshall( entry, pd, dataOutput, serializationContext );
+                    target.writeLong( classDefinition.getId() );
+                    marshaller.marshall( entry, pd, target, serializationContext );
                 }
             }
         }
@@ -113,28 +113,28 @@ public class ListMarshaller
 
     @Override
     @SuppressWarnings( { "rawtypes", "unchecked" } )
-    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
-        if ( isNull( dataInput ) )
+        if ( isNull( source ) )
         {
             return null;
         }
 
-        int size = dataInput.readInt();
+        int size = source.readInt();
         List list = new ArrayList( size );
         if ( size > 0 )
         {
             for ( int i = 0; i < size; i++ )
             {
-                if ( isNull( dataInput ) )
+                if ( isNull( source ) )
                 {
                     list.add( null );
                 }
                 else
                 {
-                    long classId = dataInput.readLong();
+                    long classId = source.readLong();
                     ClassDefinition classDefinition =
                         serializationContext.getClassDefinitionContainer().getClassDefinitionById( classId );
 
@@ -152,7 +152,7 @@ public class ListMarshaller
                     PropertyDescriptor pd =
                         new CheatPropertyDescriptor( propertyDescriptor.getPropertyName() + "List",
                                                      classDefinition.getType(), marshaller );
-                    list.add( marshaller.unmarshall( pd, dataInput, serializationContext ) );
+                    list.add( marshaller.unmarshall( pd, source, serializationContext ) );
                 }
             }
         }

@@ -41,6 +41,13 @@ public class OutputStreamTarget
     }
 
     @Override
+    public void writeBoolean( boolean value )
+        throws IOException
+    {
+        writeByte( (byte) ( value ? 1 : 0 ) );
+    }
+
+    @Override
     public void writeBytes( byte[] bytes )
         throws IOException
     {

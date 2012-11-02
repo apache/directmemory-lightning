@@ -18,7 +18,6 @@
  */
 package org.apache.directmemory.lightning.internal.generator;
 
-import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.util.Collections;
@@ -28,6 +27,8 @@ import java.util.Map;
 import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.SerializationContext;
 import org.apache.directmemory.lightning.SerializationStrategy;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.exceptions.SerializerDefinitionException;
 import org.apache.directmemory.lightning.instantiator.ObjectInstantiator;
 import org.apache.directmemory.lightning.instantiator.ObjectInstantiatorFactory;
@@ -71,7 +72,7 @@ public abstract class AbstractGeneratedMarshaller
 
     @Override
     @SuppressWarnings( "unchecked" )
-    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
@@ -79,7 +80,7 @@ public abstract class AbstractGeneratedMarshaller
         {
             if ( ClassUtil.isReferenceCapable( propertyDescriptor.getType() ) )
             {
-                long referenceId = dataInput.readLong();
+                long referenceId = source.readLong();
                 V instance;
                 if ( containsReferenceId( referenceId, serializationContext ) )
                 {
@@ -88,7 +89,7 @@ public abstract class AbstractGeneratedMarshaller
                 else
                 {
                     // Instance not yet received, for first time deserialize it
-                    instance = unmarshall( (V) newInstance(), propertyDescriptor, dataInput, serializationContext );
+                    instance = unmarshall( (V) newInstance(), propertyDescriptor, source, serializationContext );
                     cacheObjectForUnmarshall( referenceId, instance, serializationContext );
                 }
 
@@ -102,10 +103,10 @@ public abstract class AbstractGeneratedMarshaller
             value = (V) newInstance();
         }
 
-        return unmarshall( value, propertyDescriptor, dataInput, serializationContext );
+        return unmarshall( value, propertyDescriptor, source, serializationContext );
     }
 
-    protected abstract <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    protected abstract <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, Source source,
                                          SerializationContext serializationContext )
         throws IOException;
 
@@ -226,7 +227,7 @@ public abstract class AbstractGeneratedMarshaller
         }
 
         @Override
-        public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+        public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                               SerializationContext serializationContext )
             throws IOException
         {
@@ -242,11 +243,11 @@ public abstract class AbstractGeneratedMarshaller
                 throw new SerializerDefinitionException( "No marshaller for property " + marshalledProperty + " found" );
             }
 
-            marshaller.marshall( value, propertyDescriptor, dataOutput, serializationContext );
+            marshaller.marshall( value, propertyDescriptor, target, serializationContext );
         }
 
         @Override
-        public <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
+        public <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source,
                                  SerializationContext serializationContext )
             throws IOException
         {
@@ -261,7 +262,7 @@ public abstract class AbstractGeneratedMarshaller
                 throw new SerializerDefinitionException( "No marshaller for property " + marshalledProperty + " found" );
             }
 
-            return marshaller.unmarshall( propertyDescriptor, dataInput, serializationContext );
+            return marshaller.unmarshall( propertyDescriptor, source, serializationContext );
         }
 
         private synchronized Marshaller getMarshaller()

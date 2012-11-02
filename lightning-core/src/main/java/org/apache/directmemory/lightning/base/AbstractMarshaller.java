@@ -18,12 +18,12 @@
  */
 package org.apache.directmemory.lightning.base;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
 
 public abstract class AbstractMarshaller
@@ -31,24 +31,24 @@ public abstract class AbstractMarshaller
 {
 
     @Override
-    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
         return null;
     }
 
-    protected boolean writePossibleNull( Object value, DataOutput dataOutput )
+    protected boolean writePossibleNull( Object value, Target target )
         throws IOException
     {
-        dataOutput.writeByte( value == null ? 1 : 0 );
+        target.writeByte( (byte) ( value == null ? 1 : 0 ) );
         return value != null;
     }
 
-    protected boolean isNull( DataInput dataInput )
+    protected boolean isNull( Source source )
         throws IOException
     {
-        byte isNull = dataInput.readByte();
+        byte isNull = source.readByte();
         return isNull == 1 ? true : false;
     }
 }

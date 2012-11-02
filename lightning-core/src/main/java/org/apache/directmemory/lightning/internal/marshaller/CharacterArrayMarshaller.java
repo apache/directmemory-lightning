@@ -18,11 +18,11 @@
  */
 package org.apache.directmemory.lightning.internal.marshaller;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.base.AbstractMarshaller;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
 
@@ -37,12 +37,12 @@ public class CharacterArrayMarshaller
     }
 
     @Override
-    public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+    public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                           SerializationContext serializationContext )
         throws IOException
     {
 
-        if ( !writePossibleNull( value, dataOutput ) )
+        if ( !writePossibleNull( value, target ) )
         {
             return;
         }
@@ -50,43 +50,43 @@ public class CharacterArrayMarshaller
         if ( char[].class == propertyDescriptor.getType() )
         {
             char[] array = (char[]) value;
-            dataOutput.writeInt( array.length );
+            target.writeInt( array.length );
 
             for ( char arrayValue : array )
             {
-                dataOutput.writeChar( arrayValue );
+                target.writeChar( arrayValue );
             }
         }
         else
         {
             Character[] array = (Character[]) value;
-            dataOutput.writeInt( array.length );
+            target.writeInt( array.length );
 
             for ( char arrayValue : array )
             {
-                dataOutput.writeChar( arrayValue );
+                target.writeChar( arrayValue );
             }
         }
     }
 
     @Override
     @SuppressWarnings( "unchecked" )
-    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
-        if ( isNull( dataInput ) )
+        if ( isNull( source ) )
         {
             return null;
         }
 
-        int size = dataInput.readInt();
+        int size = source.readInt();
         if ( char[].class == propertyDescriptor.getType() )
         {
             char[] array = new char[size];
             for ( int i = 0; i < size; i++ )
             {
-                array[i] = dataInput.readChar();
+                array[i] = source.readChar();
             }
 
             return (V) array;
@@ -96,7 +96,7 @@ public class CharacterArrayMarshaller
             Character[] array = new Character[size];
             for ( int i = 0; i < size; i++ )
             {
-                array[i] = dataInput.readChar();
+                array[i] = source.readChar();
             }
 
             return (V) array;

@@ -18,12 +18,12 @@
  */
 package org.apache.directmemory.lightning.internal.marshaller;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
 import org.apache.directmemory.lightning.Streamed;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.base.AbstractObjectMarshaller;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
 
@@ -38,20 +38,20 @@ public class StreamedMarshaller
     }
 
     @Override
-    public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+    public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                           SerializationContext serializationContext )
         throws IOException
     {
 
-        ( (Streamed) value ).writeTo( dataOutput );
+        ( (Streamed) value ).writeTo( target );
     }
 
     @Override
-    public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
-        ( (Streamed) value ).readFrom( dataInput );
+        ( (Streamed) value ).readFrom( source );
         return value;
     }
 }

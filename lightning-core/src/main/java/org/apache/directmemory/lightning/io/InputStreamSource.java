@@ -64,6 +64,13 @@ public class InputStreamSource
     }
 
     @Override
+    public boolean readBoolean()
+        throws IOException
+    {
+        return readByte() == 1 ? true : false;
+    }
+
+    @Override
     public int readBytes( byte[] bytes )
         throws IOException
     {
@@ -88,7 +95,7 @@ public class InputStreamSource
     public short readUnsignedByte()
         throws IOException
     {
-        return  (short) ( readByte() & 0xFF );
+        return (short) ( readByte() & 0xFF );
     }
 
     @Override

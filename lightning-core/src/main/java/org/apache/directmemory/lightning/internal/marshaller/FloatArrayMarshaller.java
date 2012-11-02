@@ -18,11 +18,11 @@
  */
 package org.apache.directmemory.lightning.internal.marshaller;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.base.AbstractMarshaller;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
 
@@ -37,12 +37,12 @@ public class FloatArrayMarshaller
     }
 
     @Override
-    public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+    public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                           SerializationContext serializationContext )
         throws IOException
     {
 
-        if ( !writePossibleNull( value, dataOutput ) )
+        if ( !writePossibleNull( value, target ) )
         {
             return;
         }
@@ -50,43 +50,43 @@ public class FloatArrayMarshaller
         if ( float[].class == propertyDescriptor.getType() )
         {
             float[] array = (float[]) value;
-            dataOutput.writeInt( array.length );
+            target.writeInt( array.length );
 
             for ( float arrayValue : array )
             {
-                dataOutput.writeFloat( arrayValue );
+                target.writeFloat( arrayValue );
             }
         }
         else
         {
             Float[] array = (Float[]) value;
-            dataOutput.writeInt( array.length );
+            target.writeInt( array.length );
 
             for ( float arrayValue : array )
             {
-                dataOutput.writeFloat( arrayValue );
+                target.writeFloat( arrayValue );
             }
         }
     }
 
     @Override
     @SuppressWarnings( "unchecked" )
-    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
-        if ( isNull( dataInput ) )
+        if ( isNull( source ) )
         {
             return null;
         }
 
-        int size = dataInput.readInt();
+        int size = source.readInt();
         if ( float[].class == propertyDescriptor.getType() )
         {
             float[] array = new float[size];
             for ( int i = 0; i < size; i++ )
             {
-                array[i] = dataInput.readFloat();
+                array[i] = source.readFloat();
             }
 
             return (V) array;
@@ -96,7 +96,7 @@ public class FloatArrayMarshaller
             Float[] array = new Float[size];
             for ( int i = 0; i < size; i++ )
             {
-                array[i] = dataInput.readFloat();
+                array[i] = source.readFloat();
             }
 
             return (V) array;

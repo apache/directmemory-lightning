@@ -18,17 +18,8 @@
  */
 package org.apache.directmemory.lightning.internal;
 
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.Writer;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -39,15 +30,13 @@ import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.MarshallerStrategy;
 import org.apache.directmemory.lightning.SerializationContext;
 import org.apache.directmemory.lightning.SerializationStrategy;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.exceptions.ClassDefinitionInconsistentException;
 import org.apache.directmemory.lightning.exceptions.SerializerExecutionException;
 import org.apache.directmemory.lightning.instantiator.ObjectInstantiatorFactory;
 import org.apache.directmemory.lightning.internal.generator.BytecodeMarshallerGenerator;
 import org.apache.directmemory.lightning.internal.generator.MarshallerGenerator;
-import org.apache.directmemory.lightning.internal.io.BufferInputStream;
-import org.apache.directmemory.lightning.internal.io.BufferOutputStream;
-import org.apache.directmemory.lightning.internal.io.ReaderInputStream;
-import org.apache.directmemory.lightning.internal.io.WriterOutputStream;
 import org.apache.directmemory.lightning.logging.Logger;
 import org.apache.directmemory.lightning.metadata.ClassDefinition;
 import org.apache.directmemory.lightning.metadata.ClassDefinitionContainer;
@@ -130,7 +119,7 @@ class InternalSerializer
     }
 
     @Override
-    public <V> void serialize( V value, DataOutput dataOutput )
+    public <V> void serialize( V value, Target target )
     {
         try
         {
@@ -144,8 +133,8 @@ class InternalSerializer
             Marshaller marshaller = classDescriptor.getMarshaller();
             PropertyDescriptor pd = new CheatPropertyDescriptor( "serialize", classDescriptor.getType(), marshaller );
 
-            dataOutput.writeLong( classDescriptor.getClassDefinition().getId() );
-            marshaller.marshall( value, pd, dataOutput, serializationContext );
+            target.writeLong( classDescriptor.getClassDefinition().getId() );
+            marshaller.marshall( value, pd, target, serializationContext );
         }
         catch ( IOException e )
         {
@@ -154,29 +143,8 @@ class InternalSerializer
     }
 
     @Override
-    public <V> void serialize( V value, OutputStream outputStream )
-    {
-        if ( outputStream instanceof DataOutput )
-            serialize( value, (DataOutput) outputStream );
-        else
-            serialize( value, (DataOutput) new DataOutputStream( outputStream ) );
-    }
-
-    @Override
-    public <V> void serialize( V value, Writer writer )
-    {
-        serialize( value, (DataOutput) new DataOutputStream( new WriterOutputStream( writer, "UTF-8" ) ) );
-    }
-
-    @Override
-    public <V> void serialize( V value, ByteBuffer buffer )
-    {
-        serialize( value, (DataOutput) new DataOutputStream( new BufferOutputStream( buffer ) ) );
-    }
-
-    @Override
     @SuppressWarnings( "unchecked" )
-    public <V> V deserialize( DataInput dataInput )
+    public <V> V deserialize( Source source )
     {
         try
         {
@@ -185,41 +153,18 @@ class InternalSerializer
                                                   marshallerStrategy, objectInstantiatorFactory,
                                                   valueNullableEvaluator, definedMarshallers );
 
-            long typeId = dataInput.readLong();
+            long typeId = source.readLong();
             Class<?> clazz = classDefinitionContainer.get().getTypeById( typeId );
             ClassDescriptor classDescriptor = findClassDescriptor( clazz );
             Marshaller marshaller = classDescriptor.getMarshaller();
             PropertyDescriptor pd = new CheatPropertyDescriptor( "serialize", classDescriptor.getType(), marshaller );
 
-            return (V) marshaller.unmarshall( pd, dataInput, serializationContext );
+            return (V) marshaller.unmarshall( pd, source, serializationContext );
         }
         catch ( IOException e )
         {
             throw new SerializerExecutionException( "Error while deserializing value", e );
         }
-    }
-
-    @Override
-    public <V> V deserialize( InputStream inputStream )
-    {
-        if ( inputStream instanceof DataInput )
-        {
-            return deserialize( (DataInput) inputStream );
-        }
-
-        return deserialize( (DataInput) new DataInputStream( inputStream ) );
-    }
-
-    @Override
-    public <V> V deserialize( Reader reader )
-    {
-        return deserialize( (DataInput) new DataInputStream( new ReaderInputStream( reader, "UTF-8" ) ) );
-    }
-
-    @Override
-    public <V> V deserialize( ByteBuffer buffer )
-    {
-        return deserialize( (DataInput) new DataInputStream( new BufferInputStream( buffer ) ) );
     }
 
     @Override

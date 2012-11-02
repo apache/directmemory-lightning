@@ -18,14 +18,16 @@
  */
 package org.apache.directmemory.lightning.internal.marshaller;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.Externalizable;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.base.AbstractObjectMarshaller;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
 
@@ -40,22 +42,31 @@ public class ExternalizableMarshaller
     }
 
     @Override
-    public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+    public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                           SerializationContext serializationContext )
         throws IOException
     {
-
-        ( (Externalizable) value ).writeExternal( (ObjectOutput) dataOutput );
+        ByteArrayOutputStream stream = new ByteArrayOutputStream( 1024 );
+        ObjectOutputStream oos = new ObjectOutputStream( stream );
+        ( (Externalizable) value ).writeExternal( oos );
+        byte[] data = stream.toByteArray();
+        target.writeInt( data.length );
+        target.writeBytes( data );
     }
 
     @Override
-    public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
         try
         {
-            ( (Externalizable) value ).readExternal( (ObjectInput) dataInput );
+            int length = source.readInt();
+            byte[] data = new byte[length];
+            source.readBytes( data );
+            ByteArrayInputStream stream = new ByteArrayInputStream( data );
+            ObjectInputStream ois = new ObjectInputStream( stream );
+            ( (Externalizable) value ).readExternal( ois );
             return value;
         }
         catch ( ClassNotFoundException e )

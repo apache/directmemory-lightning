@@ -18,12 +18,12 @@
  */
 package org.apache.directmemory.lightning.base;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.instantiator.ObjectInstantiatorFactory;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
 
@@ -49,22 +49,22 @@ class ObjenesisDelegatingMarshaller
     }
 
     @Override
-    public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+    public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                           SerializationContext serializationContext )
         throws IOException
     {
 
-        delegatedMarshaller.marshall( value, propertyDescriptor, dataOutput, serializationContext );
+        delegatedMarshaller.marshall( value, propertyDescriptor, target, serializationContext );
     }
 
     @Override
     @SuppressWarnings( "unchecked" )
-    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
         V value = (V) objectInstantiatorFactory.newInstance( propertyDescriptor.getType() );
-        return delegatedMarshaller.unmarshall( value, propertyDescriptor, dataInput, serializationContext );
+        return delegatedMarshaller.unmarshall( value, propertyDescriptor, source, serializationContext );
     }
 
 }

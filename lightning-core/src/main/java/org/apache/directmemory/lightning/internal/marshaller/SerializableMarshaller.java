@@ -18,16 +18,16 @@
  */
 package org.apache.directmemory.lightning.internal.marshaller;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.base.AbstractObjectMarshaller;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
 
@@ -42,25 +42,33 @@ public class SerializableMarshaller
     }
 
     @Override
-    public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+    public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                           SerializationContext serializationContext )
         throws IOException
     {
 
-        ObjectOutputStream stream = new ObjectOutputStream( (OutputStream) dataOutput );
-        stream.writeObject( value );
+        ByteArrayOutputStream stream = new ByteArrayOutputStream( 1024 );
+        ObjectOutputStream oos = new ObjectOutputStream( stream );
+        oos.writeObject( value );
+        byte[] data = stream.toByteArray();
+        target.writeInt( data.length );
+        target.writeBytes( data );
     }
 
     @Override
     @SuppressWarnings( "unchecked" )
-    public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
-        ObjectInputStream stream = new ObjectInputStream( (InputStream) dataInput );
         try
         {
-            return (V) stream.readObject();
+            int length = source.readInt();
+            byte[] data = new byte[length];
+            source.readBytes( data );
+            ByteArrayInputStream stream = new ByteArrayInputStream( data );
+            ObjectInputStream ois = new ObjectInputStream( stream );
+            return (V) ois.readObject();
         }
         catch ( ClassNotFoundException e )
         {

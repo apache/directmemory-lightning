@@ -18,10 +18,10 @@
  */
 package org.apache.directmemory.lightning.base;
 
-import java.io.DataInput;
 import java.io.IOException;
 
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
 
 public abstract class AbstractObjectMarshaller
@@ -30,16 +30,16 @@ public abstract class AbstractObjectMarshaller
 
     @Override
     @SuppressWarnings( "unchecked" )
-    public final <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public final <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source,
                                    SerializationContext serializationContext )
         throws IOException
     {
         Object value =
             serializationContext.getObjectInstantiatorFactory().getInstantiatorOf( propertyDescriptor.getType() );
-        return unmarshall( (V) value, propertyDescriptor, dataInput, serializationContext );
+        return unmarshall( (V) value, propertyDescriptor, source, serializationContext );
     }
 
-    public abstract <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public abstract <V> V unmarshall( V value, PropertyDescriptor propertyDescriptor, Source source,
                                       SerializationContext serializationContext )
         throws IOException;
 }

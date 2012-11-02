@@ -18,12 +18,12 @@
  */
 package org.apache.directmemory.lightning.internal.marshaller;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 import java.math.BigInteger;
 
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.base.AbstractMarshaller;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
 
@@ -38,35 +38,35 @@ public class BigIntegerMarshaller
     }
 
     @Override
-    public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+    public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                           SerializationContext serializationContext )
         throws IOException
     {
 
-        if ( !writePossibleNull( value, dataOutput ) )
+        if ( !writePossibleNull( value, target ) )
         {
             return;
         }
 
         byte[] data = ( (BigInteger) value ).toByteArray();
-        dataOutput.writeInt( data.length );
-        dataOutput.write( data );
+        target.writeInt( data.length );
+        target.writeBytes( data );
     }
 
     @Override
     @SuppressWarnings( "unchecked" )
-    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
-        if ( isNull( dataInput ) )
+        if ( isNull( source ) )
         {
             return null;
         }
 
-        int length = dataInput.readInt();
+        int length = source.readInt();
         byte[] data = new byte[length];
-        dataInput.readFully( data );
+        source.readBytes( data );
 
         return (V) new BigInteger( data );
     }

@@ -18,10 +18,9 @@
  */
 package org.apache.directmemory.lightning;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 
+import org.apache.directmemory.lightning.base.AbstractSerializerDefinition;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
 
 /**
@@ -44,25 +43,24 @@ public interface Marshaller
      * 
      * @param value Object instance to serialize
      * @param propertyDescriptor The {@link PropertyDescriptor} of this object
-     * @param dataOutput The {@link DataOutput} implementation to write to
+     * @param target The {@link Target} implementation to write to
      * @param serializationContext The {@link SerializationContext} used to serialize this object graph
-     * @throws IOException Throws {@link IOException} if any exception occurs while writing to the {@link DataOutput}
+     * @throws IOException Throws {@link IOException} if any exception occurs while writing to the {@link Target}
      */
-    void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+    void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                    SerializationContext serializationContext )
         throws IOException;
 
     /**
-     * Unmarshalls (deserializes) an object from the given {@link DataInput}.
+     * Unmarshalls (deserializes) an object from the given {@link Source}.
      * 
      * @param propertyDescriptor The {@link PropertyDescriptor} of this object
-     * @param dataInput The {@link DataInput} implementation to read from
+     * @param source The {@link Source} implementation to read from
      * @param serializationContext The {@link SerializationContext} used to deserialize this object graph
-     * @return An object read from the given {@link DataInput}
-     * @throws IOException Throws {@link IOException} if any exception occurs while reading from the {@link DataInput}
+     * @return An object read from the given {@link Source}
+     * @throws IOException Throws {@link IOException} if any exception occurs while reading from the {@link Source}
      */
-    <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
-                      SerializationContext serializationContext )
+    <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source, SerializationContext serializationContext )
         throws IOException;
 
 }

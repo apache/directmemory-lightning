@@ -18,8 +18,6 @@
  */
 package org.apache.directmemory.lightning.internal.marshaller;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -28,6 +26,8 @@ import java.util.Set;
 
 import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.TypeBindableMarshaller;
 import org.apache.directmemory.lightning.base.AbstractMarshaller;
 import org.apache.directmemory.lightning.exceptions.SerializerExecutionException;
@@ -62,15 +62,15 @@ public class SetMarshaller
     }
 
     @Override
-    public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+    public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                           SerializationContext serializationContext )
         throws IOException
     {
 
-        if ( writePossibleNull( value, dataOutput ) )
+        if ( writePossibleNull( value, target ) )
         {
             Set<?> set = (Set<?>) value;
-            dataOutput.writeInt( set.size() );
+            target.writeInt( set.size() );
 
             Marshaller marshaller = null;
             ClassDefinition classDefinition = null;
@@ -87,7 +87,7 @@ public class SetMarshaller
 
             for ( Object entry : set )
             {
-                if ( writePossibleNull( entry, dataOutput ) )
+                if ( writePossibleNull( entry, target ) )
                 {
                     if ( setType == null )
                     {
@@ -99,8 +99,8 @@ public class SetMarshaller
                                                          entry.getClass(), marshaller );
                     }
 
-                    dataOutput.writeLong( classDefinition.getId() );
-                    marshaller.marshall( entry, pd, dataOutput, serializationContext );
+                    target.writeLong( classDefinition.getId() );
+                    marshaller.marshall( entry, pd, target, serializationContext );
                 }
             }
         }
@@ -108,28 +108,28 @@ public class SetMarshaller
 
     @Override
     @SuppressWarnings( { "rawtypes", "unchecked" } )
-    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
-        if ( isNull( dataInput ) )
+        if ( isNull( source ) )
         {
             return null;
         }
 
-        int size = dataInput.readInt();
+        int size = source.readInt();
         Set set = new HashSet( size );
         if ( size > 0 )
         {
             for ( int i = 0; i < size; i++ )
             {
-                if ( isNull( dataInput ) )
+                if ( isNull( source ) )
                 {
                     set.add( null );
                 }
                 else
                 {
-                    long classId = dataInput.readLong();
+                    long classId = source.readLong();
                     ClassDefinition classDefinition =
                         serializationContext.getClassDefinitionContainer().getClassDefinitionById( classId );
 
@@ -147,7 +147,7 @@ public class SetMarshaller
                     PropertyDescriptor pd =
                         new CheatPropertyDescriptor( propertyDescriptor.getPropertyName() + "Set",
                                                      classDefinition.getType(), marshaller );
-                    set.add( marshaller.unmarshall( pd, dataInput, serializationContext ) );
+                    set.add( marshaller.unmarshall( pd, source, serializationContext ) );
                 }
             }
         }

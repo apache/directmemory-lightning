@@ -28,6 +28,9 @@ public interface Target
 
     long writtenBytes();
 
+    void writeBoolean( boolean value )
+        throws IOException;
+
     void writeBytes( byte[] bytes )
         throws IOException;
 

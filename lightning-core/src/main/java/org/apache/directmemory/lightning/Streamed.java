@@ -18,17 +18,15 @@
  */
 package org.apache.directmemory.lightning;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 
 public interface Streamed
 {
 
-    void writeTo( DataOutput dataOutput )
+    void writeTo( Target target )
         throws IOException;
 
-    void readFrom( DataInput dataInput )
+    void readFrom( Source source )
         throws IOException;
 
 }

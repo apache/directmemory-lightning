@@ -18,8 +18,6 @@
  */
 package org.apache.directmemory.lightning.internal.marshaller;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -29,6 +27,8 @@ import java.util.Map.Entry;
 
 import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.TypeBindableMarshaller;
 import org.apache.directmemory.lightning.base.AbstractMarshaller;
 import org.apache.directmemory.lightning.exceptions.SerializerExecutionException;
@@ -68,15 +68,15 @@ public class MapMarshaller
     }
 
     @Override
-    public void marshall( Object value, PropertyDescriptor propertyDescriptor, DataOutput dataOutput,
+    public void marshall( Object value, PropertyDescriptor propertyDescriptor, Target target,
                           SerializationContext serializationContext )
         throws IOException
     {
 
-        if ( writePossibleNull( value, dataOutput ) )
+        if ( writePossibleNull( value, target ) )
         {
             Map<?, ?> map = (Map<?, ?>) value;
-            dataOutput.writeInt( map.size() );
+            target.writeInt( map.size() );
 
             Marshaller keyMarshaller = null;
             ClassDefinition keyClassDefinition = null;
@@ -129,16 +129,16 @@ public class MapMarshaller
                     }
                 }
 
-                if ( writePossibleNull( entry.getKey(), dataOutput ) )
+                if ( writePossibleNull( entry.getKey(), target ) )
                 {
-                    dataOutput.writeLong( keyClassDefinition.getId() );
-                    keyMarshaller.marshall( entry.getKey(), keyPd, dataOutput, serializationContext );
+                    target.writeLong( keyClassDefinition.getId() );
+                    keyMarshaller.marshall( entry.getKey(), keyPd, target, serializationContext );
                 }
 
-                if ( writePossibleNull( entry.getValue(), dataOutput ) )
+                if ( writePossibleNull( entry.getValue(), target ) )
                 {
-                    dataOutput.writeLong( valueClassDefinition.getId() );
-                    valueMarshaller.marshall( entry.getValue(), valuePd, dataOutput, serializationContext );
+                    target.writeLong( valueClassDefinition.getId() );
+                    valueMarshaller.marshall( entry.getValue(), valuePd, target, serializationContext );
                 }
             }
         }
@@ -146,25 +146,25 @@ public class MapMarshaller
 
     @Override
     @SuppressWarnings( { "rawtypes", "unchecked" } )
-    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, DataInput dataInput,
+    public <V> V unmarshall( PropertyDescriptor propertyDescriptor, Source source,
                              SerializationContext serializationContext )
         throws IOException
     {
-        if ( isNull( dataInput ) )
+        if ( isNull( source ) )
         {
             return null;
         }
 
-        int size = dataInput.readInt();
+        int size = source.readInt();
         Map map = new LinkedHashMap( size );
         if ( size > 0 )
         {
             for ( int i = 0; i < size; i++ )
             {
                 Object key = null;
-                if ( !isNull( dataInput ) )
+                if ( !isNull( source ) )
                 {
-                    long keyClassId = dataInput.readLong();
+                    long keyClassId = source.readLong();
                     ClassDefinition keyClassDefinition =
                         serializationContext.getClassDefinitionContainer().getClassDefinitionById( keyClassId );
 
@@ -182,13 +182,13 @@ public class MapMarshaller
                     PropertyDescriptor pd =
                         new CheatPropertyDescriptor( propertyDescriptor.getPropertyName() + "Key",
                                                      keyClassDefinition.getType(), keyMarshaller );
-                    key = keyMarshaller.unmarshall( pd, dataInput, serializationContext );
+                    key = keyMarshaller.unmarshall( pd, source, serializationContext );
                 }
 
                 Object value = null;
-                if ( !isNull( dataInput ) )
+                if ( !isNull( source ) )
                 {
-                    long valueClassId = dataInput.readLong();
+                    long valueClassId = source.readLong();
                     ClassDefinition valueClassDefinition =
                         serializationContext.getClassDefinitionContainer().getClassDefinitionById( valueClassId );
 
@@ -206,7 +206,7 @@ public class MapMarshaller
                     PropertyDescriptor pd =
                         new CheatPropertyDescriptor( propertyDescriptor.getPropertyName() + "Value",
                                                      valueClassDefinition.getType(), valueMarshaller );
-                    value = valueMarshaller.unmarshall( pd, dataInput, serializationContext );
+                    value = valueMarshaller.unmarshall( pd, source, serializationContext );
                 }
 
                 map.put( key, value );
