@@ -37,6 +37,9 @@ public interface Target
     void writeBytes( byte[] bytes, int offset, int length )
         throws IOException;
 
+    void writeBoolean( boolean value )
+        throws IOException;
+
     void writeByte( byte value )
         throws IOException;
 
@@ -59,6 +62,9 @@ public interface Target
         throws IOException;
 
     void writeDouble( double value )
+        throws IOException;
+
+    void writeString( String value )
         throws IOException;
 
     void clear()

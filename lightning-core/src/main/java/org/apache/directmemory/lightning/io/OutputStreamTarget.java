@@ -63,6 +63,20 @@ public class OutputStreamTarget
     }
 
     @Override
+    public void writeBoolean( boolean value )
+        throws IOException
+    {
+        writeByte( (byte) ( value ? 1 : 0 ) );
+    }
+
+    @Override
+    public void writeString( String value )
+        throws IOException
+    {
+        // TODO: implementation of writeString is missing
+    }
+
+    @Override
     public void writeByte( byte value )
         throws IOException
     {

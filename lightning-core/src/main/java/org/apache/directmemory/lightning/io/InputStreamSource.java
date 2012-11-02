@@ -24,6 +24,7 @@ import java.nio.ByteOrder;
 
 import org.apache.directmemory.lightning.Source;
 import org.apache.directmemory.lightning.internal.io.ByteOrderUtils;
+import org.apache.directmemory.lightning.internal.util.UnicodeUtil;
 
 public class InputStreamSource
     implements Source
@@ -82,6 +83,21 @@ public class InputStreamSource
         throws IOException
     {
         return stream.read( bytes, offset, length );
+    }
+
+    @Override
+    public boolean readBoolean()
+        throws IOException
+    {
+        return readByte() == 1 ? true : false;
+    }
+
+    @Override
+    public String readString()
+        throws IOException
+    {
+        int length = readInt();
+        return UnicodeUtil.UTF8toUTF16( this, length );
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.internal.util.UnicodeUtil;
 
 public class ByteBufferSource
     implements Source
@@ -49,6 +50,21 @@ public class ByteBufferSource
     {
         byteBuffer.get( bytes, offset, length );
         return length - offset;
+    }
+
+    @Override
+    public boolean readBoolean()
+        throws IOException
+    {
+        return readByte() == 1 ? true : false;
+    }
+
+    @Override
+    public String readString()
+        throws IOException
+    {
+        int length = readInt();
+        return UnicodeUtil.UTF8toUTF16( this, length );
     }
 
     @Override

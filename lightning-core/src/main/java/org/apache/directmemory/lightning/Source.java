@@ -37,6 +37,9 @@ public interface Source
     int readBytes( byte[] bytes, int offset, int length )
         throws IOException;
 
+    boolean readBoolean()
+        throws IOException;
+
     byte readByte()
         throws IOException;
 
@@ -59,6 +62,9 @@ public interface Source
         throws IOException;
 
     double readDouble()
+        throws IOException;
+
+    String readString()
         throws IOException;
 
     void clear()
