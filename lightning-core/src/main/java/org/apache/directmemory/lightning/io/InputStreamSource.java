@@ -89,8 +89,7 @@ public class InputStreamSource
     public String readString()
         throws IOException
     {
-        int length = readInt();
-        return UnicodeUtil.UTF8toUTF16( this, length );
+        return UnicodeUtil.UTF8toUTF16( this );
     }
 
     @Override

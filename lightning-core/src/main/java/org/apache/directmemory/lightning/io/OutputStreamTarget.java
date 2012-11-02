@@ -6,6 +6,7 @@ import java.nio.ByteOrder;
 
 import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.internal.io.ByteOrderUtils;
+import org.apache.directmemory.lightning.internal.util.UnicodeUtil;
 
 public class OutputStreamTarget
     implements Target
@@ -66,7 +67,7 @@ public class OutputStreamTarget
     public void writeString( String value )
         throws IOException
     {
-        // TODO: implementation of writeString is missing
+        UnicodeUtil.UTF16toUTF8( value, this );
     }
 
     @Override

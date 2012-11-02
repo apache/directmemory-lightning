@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import org.apache.directmemory.lightning.Target;
+import org.apache.directmemory.lightning.internal.util.UnicodeUtil;
 
 public class ByteBufferTarget
     implements Target
@@ -54,7 +55,7 @@ public class ByteBufferTarget
     public void writeString( String value )
         throws IOException
     {
-        // TODO: implementation of writeString is missing
+        UnicodeUtil.UTF16toUTF8( value, this );
     }
 
     @Override

@@ -18,8 +18,6 @@
  */
 package org.apache.directmemory.lightning.internal.generator;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +27,8 @@ import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.MarshallerContext;
 import org.apache.directmemory.lightning.MarshallerStrategy;
 import org.apache.directmemory.lightning.SerializationContext;
+import org.apache.directmemory.lightning.Source;
+import org.apache.directmemory.lightning.Target;
 import org.apache.directmemory.lightning.instantiator.ObjectInstantiatorFactory;
 import org.apache.directmemory.lightning.internal.CheatPropertyDescriptor;
 import org.apache.directmemory.lightning.internal.ClassDescriptorAwareSerializer;
@@ -44,16 +44,16 @@ public interface GeneratorConstants
     static String MARSHALLER_MARSHALL_SIGNATURE =
         Type.getMethodDescriptor( Type.VOID_TYPE,
                                   new Type[] { Type.getType( Object.class ), Type.getType( PropertyDescriptor.class ),
-                                      Type.getType( DataOutput.class ), Type.getType( SerializationContext.class ) } );
+                                      Type.getType( Target.class ), Type.getType( SerializationContext.class ) } );
 
     static String MARSHALLER_BASE_UNMARSHALL_SIGNATURE =
         Type.getMethodDescriptor( Type.getType( Object.class ), new Type[] { Type.getType( PropertyDescriptor.class ),
-            Type.getType( DataInput.class ), Type.getType( SerializationContext.class ) } );
+            Type.getType( Source.class ), Type.getType( SerializationContext.class ) } );
 
     static String MARSHALLER_UNMARSHALL_SIGNATURE =
         Type.getMethodDescriptor( Type.getType( Object.class ),
                                   new Type[] { Type.getType( Object.class ), Type.getType( PropertyDescriptor.class ),
-                                      Type.getType( DataInput.class ), Type.getType( SerializationContext.class ) } );
+                                      Type.getType( Source.class ), Type.getType( SerializationContext.class ) } );
 
     static String MARSHALLER_FIND_MARSHALLER_SIGNATURE =
         Type.getMethodDescriptor( Type.getType( Marshaller.class ),
@@ -65,7 +65,7 @@ public interface GeneratorConstants
     static String MARSHALLER_IS_ALREADY_MARSHALLED_SIGNATURE =
         Type.getMethodDescriptor( Type.BOOLEAN_TYPE,
                                   new Type[] { Type.getType( Object.class ), Type.getType( Class.class ),
-                                      Type.getType( DataOutput.class ), Type.getType( SerializationContext.class ) } );
+                                      Type.getType( Target.class ), Type.getType( SerializationContext.class ) } );
 
     static String MARSHALLER_CONSTRUCTOR_SIGNATURE =
         Type.getMethodDescriptor( Type.VOID_TYPE,
@@ -122,9 +122,9 @@ public interface GeneratorConstants
 
     static String CLASS_CLASS_INTERNAL_TYPE = Type.getType( Class.class ).getInternalName();
 
-    static String DATAOUTPUT_CLASS_INTERNAL_TYPE = Type.getType( DataOutput.class ).getInternalName();
+    static String TARGET_CLASS_INTERNAL_TYPE = Type.getType( Target.class ).getInternalName();
 
-    static String DATAINPUT_CLASS_INTERNAL_TYPE = Type.getType( DataInput.class ).getInternalName();
+    static String SOURCE_CLASS_INTERNAL_TYPE = Type.getType( Source.class ).getInternalName();
 
     static String MARSHALLERSTRATEGY_CLASS_INTERNAL_TYPE = Type.getType( MarshallerStrategy.class ).getInternalName();
 

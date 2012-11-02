@@ -443,7 +443,7 @@ public class BytecodeMarshallerGenerator
         mv.visitVarInsn( ALOAD, 3 );
         mv.visitVarInsn( ALOAD, 6 );
         mv.visitInsn( ARRAYLENGTH );
-        mv.visitMethodInsn( INVOKEINTERFACE, DATAOUTPUT_CLASS_INTERNAL_TYPE, "writeInt", "(I)V" );
+        mv.visitMethodInsn( INVOKEINTERFACE, TARGET_CLASS_INTERNAL_TYPE, "writeInt", "(I)V" );
 
         // Loop over every element in array
         Label forLoopEnd = new Label();
@@ -602,7 +602,7 @@ public class BytecodeMarshallerGenerator
 
         // Read size
         mv.visitVarInsn( ALOAD, 3 );
-        mv.visitMethodInsn( INVOKEINTERFACE, DATAINPUT_CLASS_INTERNAL_TYPE, "readInt", "()I" );
+        mv.visitMethodInsn( INVOKEINTERFACE, SOURCE_CLASS_INTERNAL_TYPE, "readInt", "()I" );
         mv.visitInsn( DUP );
         mv.visitVarInsn( ISTORE, 5 );
 

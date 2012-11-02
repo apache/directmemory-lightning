@@ -167,7 +167,7 @@ public final class UnicodeUtil
         while ( i < end )
         {
 
-            final int code = (int) characters[i++];
+            final int code = characters[i++];
 
             if ( code < 0x80 )
             {
@@ -193,7 +193,7 @@ public final class UnicodeUtil
                 // confirm valid high surrogate
                 if ( code < 0xDC00 && i < end )
                 {
-                    int utf32 = (int) characters[i];
+                    int utf32 = characters[i];
                     // confirm valid low surrogate and write pair
                     if ( utf32 >= 0xDC00 && utf32 <= 0xDFFF )
                     {
@@ -287,14 +287,14 @@ public final class UnicodeUtil
      * 
      * @throws IOException
      */
-    public static String UTF8toUTF16( Source source, int length )
+    public static String UTF8toUTF16( Source source )
         throws IOException
     {
         int charLength = source.readInt();
 
         int offset = 0;
         final char[] out = new char[charLength];
-        while ( offset < length )
+        while ( offset < charLength )
         {
             int b = source.readByte() & 0xff;
             if ( b < 0xc0 )
