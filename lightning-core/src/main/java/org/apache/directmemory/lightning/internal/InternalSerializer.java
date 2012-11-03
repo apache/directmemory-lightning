@@ -20,9 +20,11 @@ package org.apache.directmemory.lightning.internal;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.directmemory.lightning.ClassComparisonStrategy;
@@ -37,6 +39,7 @@ import org.apache.directmemory.lightning.exceptions.SerializerExecutionException
 import org.apache.directmemory.lightning.instantiator.ObjectInstantiatorFactory;
 import org.apache.directmemory.lightning.internal.generator.BytecodeMarshallerGenerator;
 import org.apache.directmemory.lightning.internal.generator.MarshallerGenerator;
+import org.apache.directmemory.lightning.internal.util.FastIntMap;
 import org.apache.directmemory.lightning.logging.Logger;
 import org.apache.directmemory.lightning.metadata.ClassDefinition;
 import org.apache.directmemory.lightning.metadata.ClassDefinitionContainer;
@@ -61,7 +64,7 @@ class InternalSerializer
 
     private final SerializationStrategy serializationStrategy;
 
-    private final Map<Class<?>, Marshaller> definedMarshallers;
+    private final FastIntMap<Marshaller> definedMarshallers;
 
     private final MarshallerStrategy marshallerStrategy;
 
@@ -69,7 +72,7 @@ class InternalSerializer
 
     InternalSerializer( ClassDefinitionContainer classDefinitionContainer, SerializationStrategy serializationStrategy,
                         ClassComparisonStrategy classComparisonStrategy,
-                        Map<Class<?>, ClassDescriptor> classDescriptors, Map<Class<?>, Marshaller> marshallers,
+                        Map<Class<?>, ClassDescriptor> classDescriptors, Map<Type, Marshaller> marshallers,
                         ObjectInstantiatorFactory objectInstantiatorFactory, Logger logger,
                         MarshallerStrategy marshallerStrategy, File debugCacheDirectory,
                         ValueNullableEvaluator valueNullableEvaluator )
@@ -96,7 +99,12 @@ class InternalSerializer
             }
         }
 
-        this.definedMarshallers = marshallers;
+        this.definedMarshallers = new FastIntMap<Marshaller>( marshallers.size() );
+        for ( Entry<Type, Marshaller> entry : marshallers.entrySet() )
+        {
+            this.definedMarshallers.put( System.identityHashCode( entry.getKey() ), entry.getValue() );
+        }
+
         this.marshallerStrategy = marshallerStrategy;
         this.objectInstantiatorFactory = objectInstantiatorFactory;
     }

@@ -19,44 +19,35 @@
 package org.apache.directmemory.lightning.internal;
 
 import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.Map;
 
 import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.MarshallerContext;
-import org.apache.directmemory.lightning.internal.util.FastIntMap;
-import org.apache.directmemory.lightning.internal.util.FastLongMap;
 
-public class InternalMarshallerContext
+import com.carrotsearch.hppc.ObjectObjectMap;
+import com.carrotsearch.hppc.ObjectObjectOpenHashMap;
+
+public class VisitableMarshallerContext
     implements MarshallerContext
 {
 
     private final MarshallerContext parentMarshallerContext;
 
-    // private final ObjectObjectMap<Type, Marshaller> marshallers = new ObjectObjectOpenHashMap<Type, Marshaller>();
-    // private Map<Type, Marshaller> marshallers;
-    private final FastIntMap<Marshaller> marshallers;
+    private final ObjectObjectMap<Type, Marshaller> marshallers = new ObjectObjectOpenHashMap<Type, Marshaller>();
 
-    public InternalMarshallerContext( FastIntMap<Marshaller> marshallers )
+    public VisitableMarshallerContext()
     {
-        this( null, marshallers );
+        this( null );
     }
 
-    public InternalMarshallerContext( MarshallerContext parentMarshallerContext )
-    {
-        this( parentMarshallerContext, new FastIntMap<Marshaller>() );
-    }
-
-    public InternalMarshallerContext( MarshallerContext parentMarshallerContext, FastIntMap<Marshaller> marshallers )
+    public VisitableMarshallerContext( MarshallerContext parentMarshallerContext )
     {
         this.parentMarshallerContext = parentMarshallerContext;
-        this.marshallers = marshallers;
     }
 
     @Override
     public Marshaller getMarshaller( Type type )
     {
-        Marshaller marshaller = marshallers.get( System.identityHashCode( type ) );
+        Marshaller marshaller = marshallers.get( type );
         if ( marshaller != null )
         {
             return marshaller;
@@ -73,7 +64,11 @@ public class InternalMarshallerContext
     @Override
     public void bindMarshaller( Type type, Marshaller marshaller )
     {
-        marshallers.put( System.identityHashCode( type ), marshaller );
+        marshallers.put( type, marshaller );
     }
 
+    public ObjectObjectMap<Type, Marshaller> getInternalMap()
+    {
+        return marshallers;
+    }
 }

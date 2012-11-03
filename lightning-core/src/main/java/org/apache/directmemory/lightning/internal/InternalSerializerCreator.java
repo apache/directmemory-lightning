@@ -61,7 +61,7 @@ public final class InternalSerializerCreator
 
     private final List<SerializerDefinition> serializerDefinitions = new ArrayList<SerializerDefinition>();
 
-    private final Map<Class<?>, Marshaller> marshallers = new HashMap<Class<?>, Marshaller>();
+    private final Map<Type, Marshaller> marshallers = new HashMap<Type, Marshaller>();
 
     private final ObjectInstantiatorFactory objectInstantiatorFactory = new ObjenesisSerializer( true );
 

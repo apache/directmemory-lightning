@@ -330,7 +330,7 @@ public final class UnicodeUtil
             }
         }
 
-        if ( STRING_PP_CONSTRUCTOR == null )
+        if ( STRING_PP_CONSTRUCTOR != null )
         {
             return new String( out );
         }

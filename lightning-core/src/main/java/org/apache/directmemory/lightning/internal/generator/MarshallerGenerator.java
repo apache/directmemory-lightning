@@ -19,6 +19,7 @@
 package org.apache.directmemory.lightning.internal.generator;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public interface MarshallerGenerator
 {
 
     Marshaller generateMarshaller( Class<?> type, List<PropertyDescriptor> propertyDescriptors,
-                                   Map<Class<?>, Marshaller> marshallers, ClassDescriptorAwareSerializer serializer,
+                                   Map<Type, Marshaller> marshallers, ClassDescriptorAwareSerializer serializer,
                                    SerializationStrategy serializationStrategy,
                                    ObjectInstantiatorFactory objectInstantiatorFactory, File debugCacheDirectory,
                                    Logger logger );

@@ -31,11 +31,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.directmemory.lightning.internal.util.ClassUtil;
+import org.apache.directmemory.lightning.internal.util.FastLongMap;
 import org.apache.directmemory.lightning.metadata.ClassDefinition;
 import org.apache.directmemory.lightning.metadata.ClassDefinitionContainer;
-
-import com.carrotsearch.hppc.LongObjectMap;
-import com.carrotsearch.hppc.LongObjectOpenHashMap;
 
 class InternalClassDefinitionContainer
     implements ClassDefinitionContainer, Serializable
@@ -45,19 +43,20 @@ class InternalClassDefinitionContainer
 
     private final ClassDefinition[] classDefinitions;
 
-    private final LongObjectMap<ClassDefinition> classDefinitionsMappings;
+    //private final LongObjectMap<ClassDefinition> classDefinitionsMappings;
+    private final FastLongMap<ClassDefinition> classDefinitionsMappings;
 
     // Serialization
     private InternalClassDefinitionContainer( ClassDefinition[] classDefinitions )
     {
         this.classDefinitions = classDefinitions;
-        this.classDefinitionsMappings = new LongObjectOpenHashMap<ClassDefinition>();
+        this.classDefinitionsMappings = new FastLongMap<ClassDefinition>();
     }
 
     InternalClassDefinitionContainer( Set<ClassDefinition> classDefinitions )
     {
         this.classDefinitions = classDefinitions.toArray( new ClassDefinition[classDefinitions.size()] );
-        this.classDefinitionsMappings = new LongObjectOpenHashMap<ClassDefinition>( classDefinitions.size() );
+        this.classDefinitionsMappings = new FastLongMap<ClassDefinition>( classDefinitions.size() );
         initMappings( this.classDefinitions );
     }
 

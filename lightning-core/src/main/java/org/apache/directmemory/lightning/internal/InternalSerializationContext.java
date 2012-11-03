@@ -30,6 +30,8 @@ import org.apache.directmemory.lightning.SerializationContext;
 import org.apache.directmemory.lightning.SerializationStrategy;
 import org.apache.directmemory.lightning.TypeBindableMarshaller;
 import org.apache.directmemory.lightning.instantiator.ObjectInstantiatorFactory;
+import org.apache.directmemory.lightning.internal.util.FastIntMap;
+import org.apache.directmemory.lightning.internal.util.FastLongMap;
 import org.apache.directmemory.lightning.internal.util.TypeUtil;
 import org.apache.directmemory.lightning.metadata.ClassDefinitionContainer;
 import org.apache.directmemory.lightning.metadata.ValueNullableEvaluator;
@@ -45,7 +47,7 @@ public class InternalSerializationContext
 
     private final LongObjectMap<Object> referencesUnmarshall;
 
-    private final MarshallerContext marshallerContext = new InternalMarshallerContext();
+    private final MarshallerContext marshallerContext;
 
     private final ClassDefinitionContainer classDefinitionContainer;
 
@@ -64,7 +66,7 @@ public class InternalSerializationContext
                                          MarshallerStrategy marshallerStrategy,
                                          ObjectInstantiatorFactory objectInstantiatorFactory,
                                          ValueNullableEvaluator valueNullableEvaluator,
-                                         Map<Class<?>, Marshaller> definedMarshallers )
+                                         FastIntMap<Marshaller> definedMarshallers )
     {
 
         this.classDefinitionContainer = classDefinitionContainer;
@@ -73,10 +75,12 @@ public class InternalSerializationContext
         this.objectInstantiatorFactory = objectInstantiatorFactory;
         this.valueNullableEvaluator = valueNullableEvaluator;
 
-        for ( Entry<Class<?>, Marshaller> entry : definedMarshallers.entrySet() )
-        {
-            this.marshallerContext.bindMarshaller( entry.getKey(), entry.getValue() );
-        }
+        this.marshallerContext = new InternalMarshallerContext( definedMarshallers );
+
+        /*
+         * for ( Entry<Class<?>, Marshaller> entry : definedMarshallers.entrySet() ) {
+         * this.marshallerContext.bindMarshaller( entry.getKey(), entry.getValue() ); }
+         */
 
         if ( serializationStrategy == SerializationStrategy.SizeOptimized )
         {

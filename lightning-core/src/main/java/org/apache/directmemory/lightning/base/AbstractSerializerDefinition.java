@@ -43,6 +43,7 @@ import org.apache.directmemory.lightning.generator.DefinitionBuildingContext;
 import org.apache.directmemory.lightning.generator.DefinitionVisitor;
 import org.apache.directmemory.lightning.instantiator.ObjectInstantiatorFactory;
 import org.apache.directmemory.lightning.internal.InternalMarshallerContext;
+import org.apache.directmemory.lightning.internal.VisitableMarshallerContext;
 import org.apache.directmemory.lightning.internal.beans.introspection.AnnotatedTypeIntrospector;
 import org.apache.directmemory.lightning.internal.util.TypeUtil;
 import org.apache.directmemory.lightning.metadata.Attribute;
@@ -54,7 +55,7 @@ public abstract class AbstractSerializerDefinition
     implements SerializerDefinition
 {
 
-    private final InternalMarshallerContext marshallerContext = new InternalMarshallerContext();
+    private final VisitableMarshallerContext marshallerContext = new VisitableMarshallerContext();
 
     private final Set<SerializerDefinition> children = new HashSet<SerializerDefinition>();
 

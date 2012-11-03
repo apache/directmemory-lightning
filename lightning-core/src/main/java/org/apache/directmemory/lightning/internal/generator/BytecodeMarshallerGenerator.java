@@ -54,7 +54,7 @@ public class BytecodeMarshallerGenerator
 
     @Override
     public Marshaller generateMarshaller( Class<?> type, List<PropertyDescriptor> propertyDescriptors,
-                                          Map<Class<?>, Marshaller> marshallers,
+                                          Map<java.lang.reflect.Type, Marshaller> marshallers,
                                           ClassDescriptorAwareSerializer serializer,
                                           SerializationStrategy serializationStrategy,
                                           ObjectInstantiatorFactory objectInstantiatorFactory,
