@@ -39,275 +39,87 @@ import org.apache.directmemory.lightning.io.SerializerInputStream;
 import org.apache.directmemory.lightning.io.SerializerOutputStream;
 import org.apache.directmemory.lightning.metadata.Attribute;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
-import org.junit.Ignore;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-@Ignore
-public class Benchmark
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
+
+public abstract class AbstractLightningBenchmark
+    extends AbstractBenchmark
 {
 
-    private static final int WARMUP_ROUNDS = 100000;
+    private static Serializer serializer;
 
-    private static final int BENCHMARK_ROUNDS = 800000;
+    @BeforeClass
+    public static void initializeLightning()
+    {
+        long buildStartTime = System.nanoTime();
+        serializer =
+            Lightning.newBuilder().debugCacheDirectory( new File( "target" ) ).serializerDefinitions( new BenchmarkSerializerDefinition() ).build();
+        long nanos = TimeUnit.NANOSECONDS.toMillis( System.nanoTime() - buildStartTime );
+        System.out.println( "Lightning Serializer build time: " + nanos + " ms" );
+    }
 
     @Test
     public void benchmarkLightningSerialization()
         throws Exception
     {
-        long buildStartTime = System.nanoTime();
-        Serializer serializer =
-            Lightning.newBuilder().debugCacheDirectory( new File( "target" ) ).serializerDefinitions( new BenchmarkSerializerDefinition() ).build();
-        long nanos = TimeUnit.NANOSECONDS.toMillis( System.nanoTime() - buildStartTime );
-        System.out.println( "Lightning Serializer build time: " + nanos + " ms" );
+        Foo foo = buildRandomFoo();
 
-        long size = 0;
-        for ( int i = 0; i < WARMUP_ROUNDS; i++ )
-        {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            OutputStreamTarget target = new OutputStreamTarget( baos );
-            SerializerOutputStream out = new SerializerOutputStream( serializer, target );
-            Foo foo = buildRandomFoo();
-            out.writeObject( foo );
-
-            assertNotNull( baos );
-            assertNotNull( out );
-            assertNotNull( baos.toByteArray() );
-            size = baos.toByteArray().length;
-        }
-
-        try
-        {
-            Thread.sleep( 5000 );
-        }
-        catch ( Exception e )
-        {
-        }
-
-        long time = 0;
-        for ( int i = 0; i < BENCHMARK_ROUNDS; i++ )
-        {
-            Foo foo = buildRandomFoo();
-
-            long startTime = System.nanoTime();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            OutputStreamTarget target = new OutputStreamTarget( baos );
-            SerializerOutputStream out = new SerializerOutputStream( serializer, target );
-            out.writeObject( foo );
-
-            time += System.nanoTime() - startTime;
-            assertNotNull( baos.toByteArray() );
-        }
-
-        double avg = time / (double) BENCHMARK_ROUNDS;
-        System.out.println( "Lightning Serialization Avg: " + String.format( "%5.2f", avg ) + " ns, runs: "
-            + BENCHMARK_ROUNDS + ", size: " + size + " bytes" );
-
-        System.runFinalization();
-        System.gc();
-
-        try
-        {
-            Thread.sleep( 5000 );
-        }
-        catch ( Exception e )
-        {
-        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
+        out.writeObject( foo );
+        assertNotNull( baos.toByteArray() );
     }
 
     @Test
     public void benchmarkLightningDeserialization()
         throws Exception
     {
-        Serializer serializer =
-            Lightning.newBuilder().serializerDefinitions( new BenchmarkSerializerDefinition() ).build();
+        Foo foo = buildRandomFoo();
 
-        long size = 0;
-        for ( int i = 0; i < WARMUP_ROUNDS; i++ )
-        {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            OutputStreamTarget target = new OutputStreamTarget( baos );
-            SerializerOutputStream out = new SerializerOutputStream( serializer, target );
-            Foo foo = buildRandomFoo();
-            out.writeObject( foo );
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        OutputStreamTarget target = new OutputStreamTarget( baos );
+        SerializerOutputStream out = new SerializerOutputStream( serializer, target );
+        out.writeObject( foo );
 
-            assertNotNull( baos );
-            assertNotNull( out );
-            assertNotNull( baos.toByteArray() );
-            size = baos.toByteArray().length;
-
-            ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-            InputStreamSource source = new InputStreamSource( bais );
-            SerializerInputStream in = new SerializerInputStream( serializer, source );
-            Object value = in.readObject();
-            assertNotNull( value );
-            assertEquals( foo, value );
-        }
-
-        try
-        {
-            Thread.sleep( 5000 );
-        }
-        catch ( Exception e )
-        {
-        }
-
-        long time = 0;
-        for ( int i = 0; i < BENCHMARK_ROUNDS; i++ )
-        {
-            Foo foo = buildRandomFoo();
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            OutputStreamTarget target = new OutputStreamTarget( baos );
-            SerializerOutputStream out = new SerializerOutputStream( serializer, target );
-            out.writeObject( foo );
-
-            long startTime = System.nanoTime();
-            ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-            InputStreamSource source = new InputStreamSource( bais );
-            SerializerInputStream in = new SerializerInputStream( serializer, source );
-            Object value = in.readObject();
-            time += System.nanoTime() - startTime;
-            assertNotNull( value );
-            assertEquals( foo, value );
-        }
-
-        double avg = time / (double) BENCHMARK_ROUNDS;
-        System.out.println( "Lightning Deserialization Avg: " + String.format( "%5.2f", avg ) + " ns, runs: "
-            + BENCHMARK_ROUNDS + ", size: " + size + " bytes" );
-
-        System.runFinalization();
-        System.gc();
-
-        try
-        {
-            Thread.sleep( 5000 );
-        }
-        catch ( Exception e )
-        {
-        }
+        ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
+        InputStreamSource source = new InputStreamSource( bais );
+        SerializerInputStream in = new SerializerInputStream( serializer, source );
+        Object value = in.readObject();
+        assertNotNull( value );
+        assertEquals( foo, value );
     }
 
     @Test
     public void benchmarkJavaSerialization()
         throws Exception
     {
-        long size = 0;
-        for ( int i = 0; i < WARMUP_ROUNDS; i++ )
-        {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream( baos );
-            Foo foo = buildRandomFoo();
-            out.writeObject( foo );
+        Foo foo = buildRandomFoo();
 
-            assertNotNull( baos );
-            assertNotNull( out );
-            assertNotNull( baos.toByteArray() );
-            size = baos.toByteArray().length;
-        }
-
-        try
-        {
-            Thread.sleep( 5000 );
-        }
-        catch ( Exception e )
-        {
-        }
-
-        long time = 0;
-        for ( int i = 0; i < BENCHMARK_ROUNDS; i++ )
-        {
-            Foo foo = buildRandomFoo();
-
-            long startTime = System.nanoTime();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream( baos );
-            out.writeObject( foo );
-
-            time += System.nanoTime() - startTime;
-            assertNotNull( baos.toByteArray() );
-        }
-
-        double avg = time / (double) BENCHMARK_ROUNDS;
-        System.out.println( "Java Serialization Avg: " + String.format( "%5.2f", avg ) + " ns, runs: "
-            + BENCHMARK_ROUNDS + ", size: " + size + " bytes" );
-
-        System.runFinalization();
-        System.gc();
-
-        try
-        {
-            Thread.sleep( 5000 );
-        }
-        catch ( Exception e )
-        {
-        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream( baos );
+        out.writeObject( foo );
+        assertNotNull( baos.toByteArray() );
     }
 
     @Test
     public void benchmarkJavaDeserialization()
         throws Exception
     {
-        long size = 0;
-        for ( int i = 0; i < WARMUP_ROUNDS; i++ )
-        {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream( baos );
-            Foo foo = buildRandomFoo();
-            out.writeObject( foo );
+        Foo foo = buildRandomFoo();
 
-            assertNotNull( baos );
-            assertNotNull( out );
-            assertNotNull( baos.toByteArray() );
-            size = baos.toByteArray().length;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream( baos );
+        out.writeObject( foo );
 
-            ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-            ObjectInputStream in = new ObjectInputStream( bais );
-            Object value = in.readObject();
-            assertNotNull( value );
-            assertEquals( foo, value );
-        }
+        ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
+        ObjectInputStream in = new ObjectInputStream( bais );
+        Object value = in.readObject();
 
-        try
-        {
-            Thread.sleep( 5000 );
-        }
-        catch ( Exception e )
-        {
-        }
-
-        long time = 0;
-        for ( int i = 0; i < BENCHMARK_ROUNDS; i++ )
-        {
-            Foo foo = buildRandomFoo();
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream( baos );
-            out.writeObject( foo );
-
-            long startTime = System.nanoTime();
-            ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
-            ObjectInputStream in = new ObjectInputStream( bais );
-            Object value = in.readObject();
-
-            time += System.nanoTime() - startTime;
-            assertNotNull( value );
-            assertEquals( foo, value );
-        }
-
-        double avg = time / (double) BENCHMARK_ROUNDS;
-        System.out.println( "Java Deserialization Avg: " + String.format( "%5.2f", avg ) + " ns, runs: "
-            + BENCHMARK_ROUNDS + ", size: " + size + " bytes" );
-
-        System.runFinalization();
-        System.gc();
-
-        try
-        {
-            Thread.sleep( 5000 );
-        }
-        catch ( Exception e )
-        {
-        }
+        assertNotNull( value );
+        assertEquals( foo, value );
     }
 
     private static final Random RANDOM = new Random( System.nanoTime() );
