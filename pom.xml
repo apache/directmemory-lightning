@@ -43,16 +43,6 @@
     <module>lightning-integration</module>
   </modules>
 
-  <developers>
-    <developer>
-      <id>noctarius</id>
-      <name>Christoph Engelbert</name>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-  </developers>
-
   <scm>
     <connection>scm:svn:https://svn.apache.org/repos/asf/lightning/trunk/</connection>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/lightning/trunk/</developerConnection>
