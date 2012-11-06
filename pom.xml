@@ -67,7 +67,7 @@
 
     <directmemory.lightning.siteFilePath>${user.home}/directmemory-lightning-site-deploy</directmemory.lightning.siteFilePath>
     <directmemory.lightning.siteUrlDeployment>file://${directmemory.lightning.siteFilePath}</directmemory.lightning.siteUrlDeployment>
-    <directmemory.lightning.scmPubCheckoutDirectory>${user.home}/directmemory-site-content</directmemory.lightning.scmPubCheckoutDirectory>
+    <directmemory.lightning.scmPubCheckoutDirectory>${user.home}/directmemory-lightning-site-content</directmemory.lightning.scmPubCheckoutDirectory>
     <scmSkipDeletedFiles>false</scmSkipDeletedFiles>
 
   </properties>
@@ -304,6 +304,14 @@
     </resources>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>${site-plugin.version}</version>
+          <configuration>
+            <stagingSiteURL>${directmemory.lightning.siteUrlDeployment}</stagingSiteURL>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-publish-plugin</artifactId>
