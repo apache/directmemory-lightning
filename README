@@ -1,0 +1,4 @@
+Deploy web site 
+-----------------------
+sh ./deploySite.sh -Dusername=svnuid -Dpassword=svnpassword
+
