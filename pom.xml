@@ -64,6 +64,13 @@
     <spring.version>2.5.6</spring.version>
 
     <rat-plugin.version>0.8</rat-plugin.version>
+
+
+    <directmemory.lightning.siteFilePath>${user.home}/directmemory-lightning-site-deploy</directmemory.lightning.siteFilePath>
+    <directmemory.lightning.siteUrlDeployment>file://${directmemory.lightning.siteFilePath}</directmemory.lightning.siteUrlDeployment>
+    <directmemory.lightning.scmPubCheckoutDirectory>${user.home}/directmemory-site-content</directmemory.lightning.scmPubCheckoutDirectory>
+    <scmSkipDeletedFiles>false</scmSkipDeletedFiles>
+
   </properties>
 
   <dependencyManagement>
@@ -282,6 +289,16 @@
     </resources>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-publish-plugin</artifactId>
+          <configuration>
+            <pubScmUrl>scm:svn:https://svn.apache.org/repos/asf/directmemory/site-content/lightning</pubScmUrl>
+            <content>${directmemory.lightning.siteFilePath}</content>
+            <checkoutDirectory>${directmemory.lightning.scmPubCheckoutDirectory}</checkoutDirectory>
+            <skipDeletedFiles>${scmSkipDeletedFiles}</skipDeletedFiles>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
           <artifactId>lifecycle-mapping</artifactId>
