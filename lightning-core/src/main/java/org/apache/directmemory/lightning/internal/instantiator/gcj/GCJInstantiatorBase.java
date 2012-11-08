@@ -35,9 +35,9 @@ public abstract class GCJInstantiatorBase
     implements ObjectInstantiator
 {
 
-    protected static Method newObjectMethod = null;
+    static Method newObjectMethod = null;
 
-    protected static ObjectInputStream dummyStream;
+    static ObjectInputStream dummyStream;
 
     private static class DummyStream
         extends ObjectInputStream

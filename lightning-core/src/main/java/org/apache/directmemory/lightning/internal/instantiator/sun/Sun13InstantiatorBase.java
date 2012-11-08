@@ -34,7 +34,7 @@ public abstract class Sun13InstantiatorBase
     implements ObjectInstantiator
 {
 
-    protected static Method allocateNewObjectMethod = null;
+    static Method allocateNewObjectMethod = null;
 
     private static void initialize()
     {
