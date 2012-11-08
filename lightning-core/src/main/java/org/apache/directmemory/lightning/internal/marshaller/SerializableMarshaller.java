@@ -53,6 +53,7 @@ public class SerializableMarshaller
         byte[] data = stream.toByteArray();
         target.writeInt( data.length );
         target.writeBytes( data );
+        oos.close();
     }
 
     @Override
@@ -61,18 +62,22 @@ public class SerializableMarshaller
                              SerializationContext serializationContext )
         throws IOException
     {
+        int length = source.readInt();
+        byte[] data = new byte[length];
+        source.readBytes( data );
+        ByteArrayInputStream stream = new ByteArrayInputStream( data );
+        ObjectInputStream ois = new ObjectInputStream( stream );
         try
         {
-            int length = source.readInt();
-            byte[] data = new byte[length];
-            source.readBytes( data );
-            ByteArrayInputStream stream = new ByteArrayInputStream( data );
-            ObjectInputStream ois = new ObjectInputStream( stream );
             return (V) ois.readObject();
         }
         catch ( ClassNotFoundException e )
         {
             throw new IOException( "Error while deserialization", e );
+        }
+        finally
+        {
+            ois.close();
         }
     }
 }

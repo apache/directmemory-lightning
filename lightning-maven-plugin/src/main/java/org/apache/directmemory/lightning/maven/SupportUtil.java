@@ -61,6 +61,7 @@ public final class SupportUtil
             {
                 sb.append( line );
             }
+            reader.close();
             return sb.toString();
         }
         catch ( IOException e )
