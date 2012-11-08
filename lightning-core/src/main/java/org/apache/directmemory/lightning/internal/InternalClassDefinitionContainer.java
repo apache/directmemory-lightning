@@ -193,10 +193,7 @@ class InternalClassDefinitionContainer
             int size = in.readInt();
 
             classDefinitions = new ClassDefinition[size + ClassUtil.CLASS_DESCRIPTORS.length];
-            for ( int i = 0; i < ClassUtil.CLASS_DESCRIPTORS.length; i++ )
-            {
-                classDefinitions[i] = ClassUtil.CLASS_DESCRIPTORS[i];
-            }
+            System.arraycopy( ClassUtil.CLASS_DESCRIPTORS, 0, classDefinitions, 0, classDefinitions.length );
 
             for ( int i = 0; i < size; i++ )
             {
