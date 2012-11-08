@@ -25,8 +25,12 @@ import java.io.Serializable;
  * 
  * @author Leonardo Mesquita
  */
-public class SerializationInstantiatorHelper
+public final class SerializationInstantiatorHelper
 {
+
+    private SerializationInstantiatorHelper()
+    {
+    }
 
     /**
      * Returns the first non-serializable superclass of a given class. According to Java Object Serialization
