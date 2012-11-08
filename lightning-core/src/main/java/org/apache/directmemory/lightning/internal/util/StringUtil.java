@@ -43,8 +43,7 @@ public final class StringUtil
     public static String toUpperCamelCase( String value )
     {
         String lowerCamelCase = toLowerCamelCase( value );
-        return String.valueOf( Character.toUpperCase( lowerCamelCase.toCharArray()[0] ) )
-            + lowerCamelCase.substring( 1 );
+        return Character.toUpperCase( lowerCamelCase.toCharArray()[0] ) + lowerCamelCase.substring( 1 );
     }
 
     private static String toCamelCase( String value )
