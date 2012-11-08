@@ -58,7 +58,7 @@ public class ObjectInputStreamInstantiator
 
         private byte[][] buffers;
 
-        private final byte[] FIRST_DATA;
+        private final byte[] firstData;
 
         private static byte[] HEADER;
 
@@ -126,8 +126,8 @@ public class ObjectInputStreamInstantiator
             {
                 throw new Error( "IOException", e );
             }
-            this.FIRST_DATA = byteOut.toByteArray();
-            buffers = new byte[][] { HEADER, FIRST_DATA, REPEATING_DATA };
+            this.firstData = byteOut.toByteArray();
+            buffers = new byte[][] { HEADER, firstData, REPEATING_DATA };
         }
 
         private void advanceBuffer()
