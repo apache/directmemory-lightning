@@ -52,7 +52,7 @@ public class SunReflectionFactoryInstantiator
         }
         catch ( NoSuchMethodException e )
         {
-            throw new Error( "Cannot find constructor for java.lang.Object!" );
+            throw new Error( "Cannot find constructor for java.lang.Object!", e );
         }
         mungedConstructor = reflectionFactory.newConstructorForSerialization( type, javaLangObjectConstructor );
         mungedConstructor.setAccessible( true );

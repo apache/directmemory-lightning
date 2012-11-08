@@ -89,7 +89,7 @@ public class ObjectInputStreamInstantiator
             }
             catch ( IOException e )
             {
-                throw new Error( "IOException: " + e.getMessage() );
+                throw new Error( "IOException", e );
             }
 
         }
@@ -124,7 +124,7 @@ public class ObjectInputStreamInstantiator
             }
             catch ( IOException e )
             {
-                throw new Error( "IOException: " + e.getMessage() );
+                throw new Error( "IOException", e );
             }
             this.FIRST_DATA = byteOut.toByteArray();
             buffers = new byte[][] { HEADER, FIRST_DATA, REPEATING_DATA };
@@ -194,7 +194,7 @@ public class ObjectInputStreamInstantiator
             }
             catch ( IOException e )
             {
-                throw new Error( "IOException: " + e.getMessage() );
+                throw new Error( "IOException", e );
             }
         }
         else
@@ -212,7 +212,7 @@ public class ObjectInputStreamInstantiator
         }
         catch ( ClassNotFoundException e )
         {
-            throw new Error( "ClassNotFoundException: " + e.getMessage() );
+            throw new Error( "ClassNotFoundException", e );
         }
         catch ( Exception e )
         {

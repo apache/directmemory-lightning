@@ -332,7 +332,7 @@ public abstract class AbstractCompilerMojo
         }
         catch ( NoSuchCompilerException e )
         {
-            throw new MojoExecutionException( "No such compiler '" + e.getCompilerId() + "'." );
+            throw new MojoExecutionException( "No such compiler '" + e.getCompilerId() + "'.", e );
         }
 
         // -----------toolchains start here ----------------------------------

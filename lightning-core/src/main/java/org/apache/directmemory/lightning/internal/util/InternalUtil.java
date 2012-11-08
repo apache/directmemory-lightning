@@ -68,7 +68,7 @@ public final class InternalUtil
         }
         catch ( Exception e )
         {
-            throw new RuntimeException( "Could not build checksum of data" );
+            throw new RuntimeException( "Could not build checksum of data", e );
         }
     }
 
