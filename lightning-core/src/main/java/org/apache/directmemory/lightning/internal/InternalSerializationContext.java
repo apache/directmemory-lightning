@@ -74,11 +74,6 @@ public class InternalSerializationContext
 
         this.marshallerContext = new InternalMarshallerContext( definedMarshallers );
 
-        /*
-         * for ( Entry<Class<?>, Marshaller> entry : definedMarshallers.entrySet() ) {
-         * this.marshallerContext.bindMarshaller( entry.getKey(), entry.getValue() ); }
-         */
-
         if ( serializationStrategy == SerializationStrategy.SizeOptimized )
         {
             this.referencesMarshall = new IdentityHashMap<Object, Long>();
@@ -174,8 +169,7 @@ public class InternalSerializationContext
 
     public long getNextReferenceIdMarshall()
     {
-        long newId = nextReferenceIdMarshall++;
-        return newId;
+        return nextReferenceIdMarshall++;
     }
 
     @Override
