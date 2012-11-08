@@ -39,7 +39,7 @@ class InternalClassDefinition
 
     private final byte[] checksum;
 
-    private final long serialVersionUID;
+    private final long serialVersion;
 
     private long id;
 
@@ -51,7 +51,7 @@ class InternalClassDefinition
         byte[] classData = ClassUtil.getClassBytes( !type.isArray() ? type : type.getComponentType() );
         this.checksum = InternalUtil.getChecksum( propertyDescriptors, logger );
         this.id = Crc64Util.checksum( classData );
-        this.serialVersionUID = ClassUtil.calculateSerialVersionUID( type );
+        this.serialVersion = ClassUtil.calculateSerialVersionUID( type );
     }
 
     InternalClassDefinition( long id, Class<?> type, byte[] checksum, long serialVersionUID )
@@ -60,7 +60,7 @@ class InternalClassDefinition
         this.type = type;
         this.id = id;
         this.checksum = checksum;
-        this.serialVersionUID = serialVersionUID;
+        this.serialVersion = serialVersionUID;
     }
 
     @Override
@@ -90,7 +90,7 @@ class InternalClassDefinition
     @Override
     public long getSerialVersionUID()
     {
-        return serialVersionUID;
+        return serialVersion;
     }
 
     @Override
@@ -107,7 +107,7 @@ class InternalClassDefinition
         result = prime * result + ( ( canonicalName == null ) ? 0 : canonicalName.hashCode() );
         result = prime * result + Arrays.hashCode( checksum );
         result = prime * result + (int) ( id ^ ( id >>> 32 ) );
-        result = prime * result + (int) ( serialVersionUID ^ ( serialVersionUID >>> 32 ) );
+        result = prime * result + (int) ( serialVersion ^ ( serialVersion >>> 32 ) );
         return result;
     }
 
@@ -146,7 +146,7 @@ class InternalClassDefinition
         {
             return false;
         }
-        if ( serialVersionUID != other.serialVersionUID )
+        if ( serialVersion != other.serialVersion )
         {
             return false;
         }
@@ -157,6 +157,6 @@ class InternalClassDefinition
     public String toString()
     {
         return "InternalClassDefinition [canonicalName=" + canonicalName + ", type=" + type + ", checksum="
-            + Arrays.toString( checksum ) + ", serialVersionUID=" + serialVersionUID + ", id=" + id + "]";
+            + Arrays.toString( checksum ) + ", serialVersionUID=" + serialVersion + ", id=" + id + "]";
     }
 }

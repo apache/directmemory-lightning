@@ -147,24 +147,24 @@ public final class ClassUtil
 
     public static long calculateSerialVersionUID( Class<?> clazz )
     {
-        Long serialVersionUID = SERIAL_VERSION_UID_CACHE.get( clazz );
-        if ( serialVersionUID != null )
+        Long serialVersion = SERIAL_VERSION_UID_CACHE.get( clazz );
+        if ( serialVersion != null )
         {
-            return serialVersionUID;
+            return serialVersion;
         }
 
         if ( Serializable.class.isAssignableFrom( clazz ) )
         {
-            serialVersionUID = ObjectStreamClass.lookup( clazz ).getSerialVersionUID();
-            SERIAL_VERSION_UID_CACHE.put( clazz, serialVersionUID );
-            return serialVersionUID;
+            serialVersion = ObjectStreamClass.lookup( clazz ).getSerialVersionUID();
+            SERIAL_VERSION_UID_CACHE.put( clazz, serialVersion );
+            return serialVersion;
         }
 
-        serialVersionUID = getSerialVersionUIDFromField( clazz );
-        if ( serialVersionUID != null )
+        serialVersion = getSerialVersionUIDFromField( clazz );
+        if ( serialVersion != null )
         {
-            SERIAL_VERSION_UID_CACHE.put( clazz, serialVersionUID );
-            return serialVersionUID;
+            SERIAL_VERSION_UID_CACHE.put( clazz, serialVersion );
+            return serialVersion;
         }
 
         try
