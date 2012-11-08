@@ -24,7 +24,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
 public final class SupportUtil
@@ -34,7 +33,7 @@ public final class SupportUtil
     {
     }
 
-    public static List<File> recursiveGetAllJavaSources( File file, ArrayList<File> list, FileFilter fileFilter )
+    public static List<File> recursiveGetAllJavaSources( File file, List<File> list, FileFilter fileFilter )
     {
         if ( file.isDirectory() )
         {
