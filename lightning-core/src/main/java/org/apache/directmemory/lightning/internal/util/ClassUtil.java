@@ -344,6 +344,8 @@ public final class ClassUtil
         implements ClassDefinition
     {
 
+        private static final long serialVersionUID = -1L;
+        
         private final long id;
 
         private final Class<?> type;
@@ -351,8 +353,6 @@ public final class ClassUtil
         private final String canonicalName;
 
         private final byte[] checksum = new byte[20];
-
-        private final long serialVersionUID = -1L;
 
         JavaBuildInTypeClassDefinition( Class<?> type, long id )
         {
