@@ -47,7 +47,7 @@ public final class TypeUtil
     {
         if ( type instanceof Class )
         {
-            return null;
+            return new Type[0];
         }
 
         if ( type instanceof ParameterizedType )
