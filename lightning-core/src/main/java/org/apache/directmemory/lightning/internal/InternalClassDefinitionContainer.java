@@ -41,10 +41,10 @@ class InternalClassDefinitionContainer
 
     private static final long serialVersionUID = -8496850178968208567L;
 
-    private final ClassDefinition[] classDefinitions;
+    private final transient ClassDefinition[] classDefinitions;
 
     // private final LongObjectMap<ClassDefinition> classDefinitionsMappings;
-    private final FastLongMap<ClassDefinition> classDefinitionsMappings;
+    private final transient FastLongMap<ClassDefinition> classDefinitionsMappings;
 
     // Serialization
     private InternalClassDefinitionContainer( ClassDefinition[] classDefinitions )
