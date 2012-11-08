@@ -238,7 +238,9 @@ public class MapMarshaller
     private void ensureMarshallersInitialized( SerializationContext serializationContext )
     {
         if ( mapKeyTypeMarshaller != null && mapValueTypeMarshaller != null )
+        {
             return;
+        }
 
         mapKeyTypeMarshaller = serializationContext.findMarshaller( mapKeyType );
         mapValueTypeMarshaller = serializationContext.findMarshaller( mapValueType );

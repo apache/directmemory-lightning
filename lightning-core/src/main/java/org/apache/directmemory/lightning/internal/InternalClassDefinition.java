@@ -115,25 +115,41 @@ class InternalClassDefinition
     public boolean equals( Object obj )
     {
         if ( this == obj )
+        {
             return true;
+        }
         if ( obj == null )
+        {
             return false;
+        }
         if ( getClass() != obj.getClass() )
+        {
             return false;
+        }
         InternalClassDefinition other = (InternalClassDefinition) obj;
         if ( canonicalName == null )
         {
             if ( other.canonicalName != null )
+            {
                 return false;
+            }
         }
         else if ( !canonicalName.equals( other.canonicalName ) )
+        {
             return false;
+        }
         if ( !Arrays.equals( checksum, other.checksum ) )
+        {
             return false;
+        }
         if ( id != other.id )
+        {
             return false;
+        }
         if ( serialVersionUID != other.serialVersionUID )
+        {
             return false;
+        }
         return true;
     }
 

@@ -193,19 +193,29 @@ public class ListMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             NoGenericTypeList other = (NoGenericTypeList) obj;
             if ( list == null )
             {
                 if ( other.list != null )
+                {
                     return false;
+                }
             }
             else if ( !list.equals( other.list ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -245,19 +255,29 @@ public class ListMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             SimpleGenericTypeList other = (SimpleGenericTypeList) obj;
             if ( list == null )
             {
                 if ( other.list != null )
+                {
                     return false;
+                }
             }
             else if ( !list.equals( other.list ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -297,19 +317,29 @@ public class ListMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             ComplexGenericTypeList other = (ComplexGenericTypeList) obj;
             if ( list == null )
             {
                 if ( other.list != null )
+                {
                     return false;
+                }
             }
             else if ( !list.equals( other.list ) )
+            {
                 return false;
+            }
             return true;
         }
 

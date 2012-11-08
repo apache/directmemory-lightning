@@ -21,8 +21,6 @@ package org.apache.directmemory.lightning.internal;
 import java.lang.reflect.Type;
 import java.util.IdentityHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.MarshallerContext;
 import org.apache.directmemory.lightning.MarshallerStrategy;
@@ -31,7 +29,6 @@ import org.apache.directmemory.lightning.SerializationStrategy;
 import org.apache.directmemory.lightning.TypeBindableMarshaller;
 import org.apache.directmemory.lightning.instantiator.ObjectInstantiatorFactory;
 import org.apache.directmemory.lightning.internal.util.FastIntMap;
-import org.apache.directmemory.lightning.internal.util.FastLongMap;
 import org.apache.directmemory.lightning.internal.util.TypeUtil;
 import org.apache.directmemory.lightning.metadata.ClassDefinitionContainer;
 import org.apache.directmemory.lightning.metadata.ValueNullableEvaluator;

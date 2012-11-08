@@ -28,10 +28,14 @@ public final class StringUtil
     public static String toLowerCamelCase( String value )
     {
         if ( value == null )
+        {
             return null;
+        }
 
         if ( value.length() == 0 )
+        {
             return value;
+        }
 
         return toCamelCase( value );
     }
@@ -52,16 +56,24 @@ public final class StringUtil
         {
             i = ignoreWhitespace( characters, i );
             if ( i == -1 )
+            {
                 break;
+            }
 
             if ( camelCase.length() == 0 )
+            {
                 camelCase.append( Character.toLowerCase( characters[i] ) );
+            }
             else
+            {
                 camelCase.append( Character.toUpperCase( characters[i] ) );
+            }
 
             int nextWhitespace = nextWhitespace( characters, i );
             if ( nextWhitespace == -1 )
+            {
                 nextWhitespace = characters.length;
+            }
 
             camelCase.append( value.substring( i + 1, nextWhitespace ) );
             i = nextWhitespace;
@@ -76,7 +88,9 @@ public final class StringUtil
         {
             char c = characters[i];
             if ( !Character.isWhitespace( c ) && '-' != c && '_' != c )
+            {
                 return i;
+            }
         }
         return -1;
     }
@@ -87,7 +101,9 @@ public final class StringUtil
         {
             char c = characters[i];
             if ( Character.isWhitespace( c ) || '-' == c || '_' == c )
+            {
                 return i;
+            }
         }
         return -1;
     }

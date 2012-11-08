@@ -193,19 +193,29 @@ public class SetMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             NoGenericTypeSet other = (NoGenericTypeSet) obj;
             if ( set == null )
             {
                 if ( other.set != null )
+                {
                     return false;
+                }
             }
             else if ( !set.equals( other.set ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -245,19 +255,29 @@ public class SetMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             SimpleGenericTypeSet other = (SimpleGenericTypeSet) obj;
             if ( set == null )
             {
                 if ( other.set != null )
+                {
                     return false;
+                }
             }
             else if ( !set.equals( other.set ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -297,19 +317,29 @@ public class SetMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             ComplexGenericTypeSet other = (ComplexGenericTypeSet) obj;
             if ( set == null )
             {
                 if ( other.set != null )
+                {
                     return false;
+                }
             }
             else if ( !set.equals( other.set ) )
+            {
                 return false;
+            }
             return true;
         }
 

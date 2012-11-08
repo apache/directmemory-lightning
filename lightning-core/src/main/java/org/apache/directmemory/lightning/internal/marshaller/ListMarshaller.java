@@ -181,7 +181,9 @@ public class ListMarshaller
     private void ensureMarshallerInitialized( SerializationContext serializationContext )
     {
         if ( listTypeMarshaller != null )
+        {
             return;
+        }
 
         listTypeMarshaller = serializationContext.findMarshaller( listType );
     }

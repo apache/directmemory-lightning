@@ -508,14 +508,22 @@ public class ArrayMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             BooleanArray other = (BooleanArray) obj;
             if ( !Arrays.equals( array, other.array ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -555,14 +563,22 @@ public class ArrayMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             ByteArray other = (ByteArray) obj;
             if ( !Arrays.equals( array, other.array ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -602,14 +618,22 @@ public class ArrayMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             CharArray other = (CharArray) obj;
             if ( !Arrays.equals( array, other.array ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -649,14 +673,22 @@ public class ArrayMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             ShortArray other = (ShortArray) obj;
             if ( !Arrays.equals( array, other.array ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -696,14 +728,22 @@ public class ArrayMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             IntArray other = (IntArray) obj;
             if ( !Arrays.equals( array, other.array ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -743,14 +783,22 @@ public class ArrayMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             LongArray other = (LongArray) obj;
             if ( !Arrays.equals( array, other.array ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -790,14 +838,22 @@ public class ArrayMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             FloatArray other = (FloatArray) obj;
             if ( !Arrays.equals( array, other.array ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -837,14 +893,22 @@ public class ArrayMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             DoubleArray other = (DoubleArray) obj;
             if ( !Arrays.equals( array, other.array ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -884,14 +948,22 @@ public class ArrayMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             ObjectArray other = (ObjectArray) obj;
             if ( !Arrays.equals( array, other.array ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -931,14 +1003,22 @@ public class ArrayMarshallerTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             DeepObjectArray other = (DeepObjectArray) obj;
             if ( !Arrays.equals( array, other.array ) )
+            {
                 return false;
+            }
             return true;
         }
 

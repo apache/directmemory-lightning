@@ -235,16 +235,22 @@ public final class UnicodeUtil
                         // Valid surrogate pair
                     }
                     else
+                    {
                         // Unmatched high surrogate
                         return false;
+                    }
                 }
                 else
+                {
                     // Unmatched high surrogate
                     return false;
+                }
             }
             else if ( ch >= UNI_SUR_LOW_START && ch <= UNI_SUR_LOW_END )
+            {
                 // Unmatched low surrogate
                 return false;
+            }
         }
 
         return true;
@@ -266,14 +272,20 @@ public final class UnicodeUtil
                         // Valid surrogate pair
                     }
                     else
+                    {
                         return false;
+                    }
                 }
                 else
+                {
                     return false;
+                }
             }
             else if ( ch >= UNI_SUR_LOW_START && ch <= UNI_SUR_LOW_END )
+            {
                 // Unmatched low surrogate
                 return false;
+            }
         }
 
         return true;

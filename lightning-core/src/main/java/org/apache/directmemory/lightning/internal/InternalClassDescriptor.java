@@ -111,19 +111,29 @@ public class InternalClassDescriptor
     public boolean equals( Object obj )
     {
         if ( this == obj )
+        {
             return true;
+        }
         if ( obj == null )
+        {
             return false;
+        }
         if ( getClass() != obj.getClass() )
+        {
             return false;
+        }
         InternalClassDescriptor other = (InternalClassDescriptor) obj;
         if ( type == null )
         {
             if ( other.type != null )
+            {
                 return false;
+            }
         }
         else if ( !type.equals( other.type ) )
+        {
             return false;
+        }
         return true;
     }
 

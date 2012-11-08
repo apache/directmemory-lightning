@@ -143,56 +143,88 @@ class InternalPropertyDescriptor
     public boolean equals( Object obj )
     {
         if ( this == obj )
+        {
             return true;
+        }
         if ( obj == null )
+        {
             return false;
+        }
         if ( getClass() != obj.getClass() )
+        {
             return false;
+        }
         InternalPropertyDescriptor other = (InternalPropertyDescriptor) obj;
         if ( !Arrays.equals( annotations, other.annotations ) )
+        {
             return false;
+        }
         if ( declaringCanonicalClassname == null )
         {
             if ( other.declaringCanonicalClassname != null )
+            {
                 return false;
+            }
         }
         else if ( !declaringCanonicalClassname.equals( other.declaringCanonicalClassname ) )
+        {
             return false;
+        }
         if ( declaringClass == null )
         {
             if ( other.declaringClass != null )
+            {
                 return false;
+            }
         }
         else if ( !declaringClass.equals( other.declaringClass ) )
+        {
             return false;
+        }
         if ( definedClass == null )
         {
             if ( other.definedClass != null )
+            {
                 return false;
+            }
         }
         else if ( !definedClass.equals( other.definedClass ) )
+        {
             return false;
+        }
         if ( internalSignature == null )
         {
             if ( other.internalSignature != null )
+            {
                 return false;
+            }
         }
         else if ( !internalSignature.equals( other.internalSignature ) )
+        {
             return false;
+        }
         if ( name == null )
         {
             if ( other.name != null )
+            {
                 return false;
+            }
         }
         else if ( !name.equals( other.name ) )
+        {
             return false;
+        }
         if ( propertyName == null )
         {
             if ( other.propertyName != null )
+            {
                 return false;
+            }
         }
         else if ( !propertyName.equals( other.propertyName ) )
+        {
             return false;
+        }
         return true;
     }
 

@@ -19,13 +19,9 @@
 package org.apache.directmemory.lightning.internal;
 
 import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.Map;
-
 import org.apache.directmemory.lightning.Marshaller;
 import org.apache.directmemory.lightning.MarshallerContext;
 import org.apache.directmemory.lightning.internal.util.FastIntMap;
-import org.apache.directmemory.lightning.internal.util.FastLongMap;
 
 public class InternalMarshallerContext
     implements MarshallerContext

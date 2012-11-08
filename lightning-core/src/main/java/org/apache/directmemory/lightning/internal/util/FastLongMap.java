@@ -49,14 +49,22 @@ public final class FastLongMap<V>
     public FastLongMap( int initialCapacity, float loadFactor )
     {
         if ( initialCapacity > 1 << 30 )
+        {
             throw new IllegalArgumentException( "initialCapacity is too large." );
+        }
         if ( initialCapacity < 0 )
+        {
             throw new IllegalArgumentException( "initialCapacity must be greater than zero." );
+        }
         if ( loadFactor <= 0 )
+        {
             throw new IllegalArgumentException( "initialCapacity must be greater than zero." );
+        }
         capacity = 1;
         while ( capacity < initialCapacity )
+        {
             capacity <<= 1;
+        }
         this.threshold = (int) ( capacity * loadFactor );
         this.table = new Entry[capacity];
         this.mask = capacity - 1;
@@ -82,7 +90,9 @@ public final class FastLongMap<V>
         for ( Entry<V> e = table[index]; e != null; e = e.next )
         {
             if ( e.key != key )
+            {
                 continue;
+            }
             V oldValue = e.value;
             e.value = value;
             return oldValue;
@@ -91,7 +101,9 @@ public final class FastLongMap<V>
         table[index] = new Entry<V>( key, value, table[index] );
 
         if ( size++ >= threshold )
+        {
             rehash( table );
+        }
 
         return null;
     }
@@ -107,7 +119,9 @@ public final class FastLongMap<V>
         {
             Entry<V> e = table[i];
             if ( e == null )
+            {
                 continue;
+            }
             do
             {
                 final Entry<V> next = e.next;
@@ -129,8 +143,12 @@ public final class FastLongMap<V>
     {
         final int index = index( key );
         for ( Entry<V> e = table[index]; e != null; e = e.next )
+        {
             if ( e.key == key )
+            {
                 return e.value;
+            }
+        }
         return null;
     }
 
@@ -138,9 +156,15 @@ public final class FastLongMap<V>
     {
         final Entry<V>[] table = this.table;
         for ( int i = table.length - 1; i >= 0; i-- )
+        {
             for ( Entry<V> e = table[i]; e != null; e = e.next )
+            {
                 if ( e.value.equals( value ) )
+                {
                     return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -148,8 +172,12 @@ public final class FastLongMap<V>
     {
         final int index = index( key );
         for ( Entry<V> e = table[index]; e != null; e = e.next )
+        {
             if ( e.key == key )
+            {
                 return true;
+            }
+        }
         return false;
     }
 
@@ -166,9 +194,13 @@ public final class FastLongMap<V>
             {
                 size--;
                 if ( prev == e )
+                {
                     table[index] = next;
+                }
                 else
+                {
                     prev.next = next;
+                }
                 return e.value;
             }
             prev = e;
@@ -191,10 +223,13 @@ public final class FastLongMap<V>
     {
         final Entry<V>[] table = this.table;
         for ( int index = table.length - 1; index >= 0; index-- )
+        {
             table[index] = null;
+        }
         size = 0;
     }
 
+    @Override
     public EntryIterator iterator()
     {
         return new EntryIterator();
@@ -220,19 +255,27 @@ public final class FastLongMap<V>
             final Entry<V>[] table = FastLongMap.this.table;
             int i;
             for ( i = table.length - 1; i >= 0; i-- )
+            {
                 if ( table[i] != null )
+                {
                     break;
+                }
+            }
             nextIndex = i;
         }
 
+        @Override
         public boolean hasNext()
         {
             if ( nextIndex >= 0 )
+            {
                 return true;
+            }
             Entry e = current;
             return e != null && e.next != null;
         }
 
+        @Override
         public Entry<V> next()
         {
             // Next entry in current bucket.
@@ -251,12 +294,17 @@ public final class FastLongMap<V>
             int i = nextIndex;
             e = current = table[i];
             while ( --i >= 0 )
+            {
                 if ( table[i] != null )
+                {
                     break;
+                }
+            }
             nextIndex = i;
             return e;
         }
 
+        @Override
         public void remove()
         {
             FastLongMap.this.remove( current.key );

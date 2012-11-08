@@ -41,7 +41,9 @@ public class SunUnsafeAllocateInstanceInstantiator
         try
         {
             if ( UNSAFE != null )
+            {
                 return UNSAFE.allocateInstance( type );
+            }
         }
         catch ( Exception e )
         {

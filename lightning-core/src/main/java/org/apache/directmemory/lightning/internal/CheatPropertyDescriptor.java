@@ -161,40 +161,62 @@ public class CheatPropertyDescriptor
     public boolean equals( Object obj )
     {
         if ( this == obj )
+        {
             return true;
+        }
         if ( obj == null )
+        {
             return false;
+        }
         if ( getClass() != obj.getClass() )
+        {
             return false;
+        }
         CheatPropertyDescriptor other = (CheatPropertyDescriptor) obj;
         if ( declaringCanonicalClassname == null )
         {
             if ( other.declaringCanonicalClassname != null )
+            {
                 return false;
+            }
         }
         else if ( !declaringCanonicalClassname.equals( other.declaringCanonicalClassname ) )
+        {
             return false;
+        }
         if ( internalSignature == null )
         {
             if ( other.internalSignature != null )
+            {
                 return false;
+            }
         }
         else if ( !internalSignature.equals( other.internalSignature ) )
+        {
             return false;
+        }
         if ( name == null )
         {
             if ( other.name != null )
+            {
                 return false;
+            }
         }
         else if ( !name.equals( other.name ) )
+        {
             return false;
+        }
         if ( propertyName == null )
         {
             if ( other.propertyName != null )
+            {
                 return false;
+            }
         }
         else if ( !propertyName.equals( other.propertyName ) )
+        {
             return false;
+        }
         return true;
     }
 

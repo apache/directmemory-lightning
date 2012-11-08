@@ -43,7 +43,7 @@ class InternalClassDefinitionContainer
 
     private final ClassDefinition[] classDefinitions;
 
-    //private final LongObjectMap<ClassDefinition> classDefinitionsMappings;
+    // private final LongObjectMap<ClassDefinition> classDefinitionsMappings;
     private final FastLongMap<ClassDefinition> classDefinitionsMappings;
 
     // Serialization

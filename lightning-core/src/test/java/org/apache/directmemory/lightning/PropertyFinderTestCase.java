@@ -393,21 +393,33 @@ public class PropertyFinderTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             Standard other = (Standard) obj;
             if ( value1 == null )
             {
                 if ( other.value1 != null )
+                {
                     return false;
+                }
             }
             else if ( !value1.equals( other.value1 ) )
+            {
                 return false;
+            }
             if ( value2 != other.value2 )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -462,21 +474,33 @@ public class PropertyFinderTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( !super.equals( obj ) )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             Inherted other = (Inherted) obj;
             if ( value3 == null )
             {
                 if ( other.value3 != null )
+                {
                     return false;
+                }
             }
             else if ( !value3.equals( other.value3 ) )
+            {
                 return false;
+            }
             if ( value4 != other.value4 )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -518,19 +542,29 @@ public class PropertyFinderTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( !super.equals( obj ) )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             ComposedInherted other = (ComposedInherted) obj;
             if ( value3 == null )
             {
                 if ( other.value3 != null )
+                {
                     return false;
+                }
             }
             else if ( !value3.equals( other.value3 ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -608,28 +642,44 @@ public class PropertyFinderTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             Composed other = (Composed) obj;
             if ( value1 == null )
             {
                 if ( other.value1 != null )
+                {
                     return false;
+                }
             }
             else if ( !value1.equals( other.value1 ) )
+            {
                 return false;
+            }
             if ( value2 != other.value2 )
+            {
                 return false;
+            }
             if ( value3 == null )
             {
                 if ( other.value3 != null )
+                {
                     return false;
+                }
             }
             else if ( !value3.equals( other.value3 ) )
+            {
                 return false;
+            }
             return true;
         }
 

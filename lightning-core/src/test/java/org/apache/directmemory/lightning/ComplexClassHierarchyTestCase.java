@@ -230,21 +230,33 @@ public class ComplexClassHierarchyTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             Foo other = (Foo) obj;
             if ( id != other.id )
+            {
                 return false;
+            }
             if ( name == null )
             {
                 if ( other.name != null )
+                {
                     return false;
+                }
             }
             else if ( !name.equals( other.name ) )
+            {
                 return false;
+            }
             return true;
         }
 
@@ -298,21 +310,33 @@ public class ComplexClassHierarchyTestCase
         public boolean equals( Object obj )
         {
             if ( this == obj )
+            {
                 return true;
+            }
             if ( obj == null )
+            {
                 return false;
+            }
             if ( getClass() != obj.getClass() )
+            {
                 return false;
+            }
             Complex other = (Complex) obj;
             if ( bar != other.bar )
+            {
                 return false;
+            }
             if ( foo == null )
             {
                 if ( other.foo != null )
+                {
                     return false;
+                }
             }
             else if ( !foo.equals( other.foo ) )
+            {
                 return false;
+            }
             return true;
         }
 

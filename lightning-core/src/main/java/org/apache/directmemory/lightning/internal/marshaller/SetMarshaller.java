@@ -176,7 +176,9 @@ public class SetMarshaller
     private void ensureMarshallerInitialized( SerializationContext serializationContext )
     {
         if ( setTypeMarshaller != null )
+        {
             return;
+        }
 
         setTypeMarshaller = serializationContext.findMarshaller( setType );
     }
