@@ -47,7 +47,7 @@ public final class Lightning
      * 
      * @return A Builder instance for configuring a new {@link Serializer} instance.
      */
-    public static final Builder newBuilder()
+    public static Builder newBuilder()
     {
         return new Builder();
     }
@@ -60,7 +60,7 @@ public final class Lightning
      *            instance
      * @return A new {@link Serializer} instance configured using the given {@link SerializerDefinition}s
      */
-    public static final Serializer createSerializer( SerializerDefinition... serializerDefinitions )
+    public static Serializer createSerializer( SerializerDefinition... serializerDefinitions )
     {
         return createSerializer( Arrays.asList( serializerDefinitions ) );
     }
@@ -73,7 +73,7 @@ public final class Lightning
      *            instance
      * @return A new {@link Serializer} instance configured using the given {@link SerializerDefinition}s
      */
-    public static final Serializer createSerializer( Iterable<? extends SerializerDefinition> serializerDefinitions )
+    public static Serializer createSerializer( Iterable<? extends SerializerDefinition> serializerDefinitions )
     {
         return new Builder().serializerDefinitions( serializerDefinitions ).build();
     }
