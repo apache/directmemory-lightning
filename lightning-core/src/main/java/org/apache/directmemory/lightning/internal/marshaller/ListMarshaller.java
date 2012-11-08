@@ -163,7 +163,7 @@ public class ListMarshaller
     @Override
     public Marshaller bindType( Type... bindingTypes )
     {
-        if ( bindingTypes == null )
+        if ( bindingTypes == null || bindingTypes.length == 0 )
         {
             return new ListMarshaller();
         }

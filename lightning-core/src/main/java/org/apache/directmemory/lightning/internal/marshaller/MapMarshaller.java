@@ -219,7 +219,7 @@ public class MapMarshaller
     @Override
     public Marshaller bindType( Type... bindingTypes )
     {
-        if ( bindingTypes == null )
+        if ( bindingTypes == null || bindingTypes.length == 0 )
         {
             return new MapMarshaller();
         }
