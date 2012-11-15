@@ -21,7 +21,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>lightning-maven-integration-test</artifactId>
-  <name>Lightning :: Maven Integration Test</name>
+  <name>Apache Lightning :: Maven Integration Test</name>
 
   <parent>
     <artifactId>lightning</artifactId>

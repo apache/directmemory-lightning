@@ -21,7 +21,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>lightning-maven-eclipse-helper</artifactId>
-  <name>Lightning :: Maven Eclipse Helper</name>
+  <name>Apache Lightning :: Maven Eclipse Helper</name>
   <packaging>eclipse-plugin</packaging>
 
   <parent>

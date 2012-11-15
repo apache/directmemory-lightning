@@ -30,7 +30,7 @@
   <groupId>org.apache.directmemory.lightning</groupId>
   <artifactId>lightning</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Lightning</name>
+  <name>Apache Lightning</name>
   <description>Lightning fast Java Serialization</description>
   <packaging>pom</packaging>
 
