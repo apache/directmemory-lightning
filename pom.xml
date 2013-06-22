@@ -65,8 +65,6 @@
     <jgroups.version>3.0.4.Final</jgroups.version>
     <spring.version>2.5.6</spring.version>
 
-    <directmemory.lightning.siteFilePath>${user.home}/directmemory-lightning-site-deploy</directmemory.lightning.siteFilePath>
-    <directmemory.lightning.siteUrlDeployment>file://${directmemory.lightning.siteFilePath}</directmemory.lightning.siteUrlDeployment>
     <directmemory.lightning.scmPubCheckoutDirectory>${user.home}/directmemory-lightning-site-content</directmemory.lightning.scmPubCheckoutDirectory>
     <scmSkipDeletedFiles>false</scmSkipDeletedFiles>
 
@@ -84,7 +82,7 @@
   <distributionManagement>
     <site>
       <id>apache.website</id>
-      <url>${directmemory.lightning.siteUrlDeployment}</url>
+      <url>scm:svn:https://svn.apache.org/repos/asf/directmemory/site-content/lightning</url>
     </site>
   </distributionManagement>
 
@@ -307,17 +305,11 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>${site-plugin.version}</version>
-          <configuration>
-            <stagingSiteURL>${directmemory.lightning.siteUrlDeployment}</stagingSiteURL>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-publish-plugin</artifactId>
           <configuration>
-            <pubScmUrl>scm:svn:https://svn.apache.org/repos/asf/directmemory/site-content/lightning</pubScmUrl>
-            <content>${directmemory.lightning.siteFilePath}</content>
             <checkoutDirectory>${directmemory.lightning.scmPubCheckoutDirectory}</checkoutDirectory>
             <skipDeletedFiles>${scmSkipDeletedFiles}</skipDeletedFiles>
           </configuration>
