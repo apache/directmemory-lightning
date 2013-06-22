@@ -46,9 +46,9 @@
   </modules>
 
   <scm>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/lightning/trunk/</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/lightning/trunk/</developerConnection>
-    <url>https://svn.apache.org/viewvc/lightning/trunk/</url>
+    <connection>scm:svn:https://svn.apache.org/repos/asf/directmemory/lightning/trunk/</connection>
+    <developerConnection>scm:svn:http://svn.apache.org/repos/asf/directmemory/lightning/trunk/</developerConnection>
+    <url>https://svn.apache.org/viewvc/directmemory/lightning/trunk/</url>
   </scm>
 
 
