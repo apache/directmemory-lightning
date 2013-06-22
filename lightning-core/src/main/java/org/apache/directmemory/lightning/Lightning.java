@@ -18,15 +18,6 @@
  */
 package org.apache.directmemory.lightning;
 
-import java.io.File;
-import java.lang.annotation.Annotation;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.directmemory.lightning.ClassComparisonStrategy;
-import org.apache.directmemory.lightning.SerializationStrategy;
-import org.apache.directmemory.lightning.Serializer;
 import org.apache.directmemory.lightning.base.DefaultValueNullableEvaluator;
 import org.apache.directmemory.lightning.configuration.SerializerDefinition;
 import org.apache.directmemory.lightning.internal.InternalSerializerCreator;
@@ -34,6 +25,12 @@ import org.apache.directmemory.lightning.logging.Logger;
 import org.apache.directmemory.lightning.logging.NoOpLogger;
 import org.apache.directmemory.lightning.metadata.PropertyDescriptor;
 import org.apache.directmemory.lightning.metadata.ValueNullableEvaluator;
+
+import java.io.File;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public final class Lightning
 {
