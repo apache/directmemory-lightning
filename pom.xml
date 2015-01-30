@@ -24,7 +24,7 @@
   <parent>
     <groupId>org.apache.directmemory</groupId>
     <artifactId>directmemory-parent</artifactId>
-    <version>1-SNAPSHOT</version>
+    <version>1</version>
   </parent>
 
   <groupId>org.apache.directmemory.lightning</groupId>
