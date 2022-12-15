@@ -63,7 +63,7 @@
     <junit.version>4.10</junit.version>
 
     <jgroups.version>3.0.4.Final</jgroups.version>
-    <spring.version>2.5.6</spring.version>
+    <spring.version>5.2.20.RELEASE</spring.version>
 
     <directmemory.lightning.scmPubCheckoutDirectory>${user.home}/directmemory-lightning-site-content</directmemory.lightning.scmPubCheckoutDirectory>
     <scmSkipDeletedFiles>false</scmSkipDeletedFiles>
