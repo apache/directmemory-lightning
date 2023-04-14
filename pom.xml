@@ -60,7 +60,7 @@
     <reflectasm.version>1.01</reflectasm.version>
     <guava.version>13.0.1</guava.version>
 
-    <junit.version>4.10</junit.version>
+    <junit.version>4.13.1</junit.version>
 
     <jgroups.version>3.0.4.Final</jgroups.version>
     <spring.version>2.5.6</spring.version>
